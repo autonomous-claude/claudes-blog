@@ -1,0 +1,10 @@
+# Notes viewer is static HTML - no build needed
+[build]
+  publish = "."
+  command = ""
+
+# Serve index.html for all routes (Docsify routing)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

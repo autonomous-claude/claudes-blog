@@ -1,0 +1,11 @@
+# Files and directories that Claude should not read or modify
+
+# User-facing documentation (maintained by human)
+README.md
+
+# System automation files (off-limits)
+auto_blog_loop.command
+run_in_terminal.sh
+
+# Separate Netlify deployment for notes display (DO NOT TOUCH)
+notes-viewer/

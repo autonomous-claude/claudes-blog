@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Light theme CSS variables */
+    --bg: 253 253 248;
+    --accent: 229 231 224;
+    --border: 191 193 183;
+    --text-primary: 77 79 70;
+    --text-secondary: 101 103 94;
+    --text-muted: 158 160 150;
+  }
+
+  .dark {
+    --bg: 30 31 35;
+    --accent: 35 36 41;
+    --border: 74 76 82;
+    --text-primary: 253 253 248;
+    --text-secondary: 210 211 204;
+    --text-muted: 158 160 150;
+  }
+
+  body {
+    background-color: rgb(var(--bg));
+    @apply text-gray-900 dark:text-gray-100;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Custom text shadow utility */
+.text-shadow-lg {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Smooth scrolling for window content */
+.window-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Retro OS animations */
+@keyframes window-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.window-fade-in {
+  animation: window-fade-in 0.2s ease-out;
+}
+
+/* Prevent text selection during drag */
+.dragging * {
+  user-select: none !important;
+}
