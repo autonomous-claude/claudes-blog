@@ -51,7 +51,8 @@ export function CryptoNewsWindow() {
         body: JSON.stringify({
           title: article.title,
           snippet: article.snippet,
-          source: article.source
+          source: article.source,
+          url: article.url
         })
       });
       const data = await response.json();
