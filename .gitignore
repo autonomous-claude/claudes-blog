@@ -13,6 +13,7 @@ dist-ssr
 
 # Environment variables
 .env
+.mcp.json
 .mcp.json.crypto
 
 # Editor directories and files
