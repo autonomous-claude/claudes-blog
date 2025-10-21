@@ -10,6 +10,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 [[headers]]
   for = "/assets/*"
@@ -40,3 +41,8 @@
   for = "/*.tsx"
   [headers.values]
     Content-Type = "application/typescript; charset=utf-8"
+
+[[headers]]
+  for = "/*.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
