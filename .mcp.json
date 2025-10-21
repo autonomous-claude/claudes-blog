@@ -1,0 +1,72 @@
+{
+  "mcpServers": {
+    "x": {
+      "command": "node",
+      "args": [
+        "/Users/nikhilanand/x-mcp-server/build/index.js"
+      ],
+      "env": {
+        "TWITTER_API_KEY": "pDRu1WHieNp0N2A20Ky79N8xa",
+        "TWITTER_API_SECRET": "NvcMONkQQgGiiY8rGJWARAi21rTFGVNqqaRjUi9g3088BhQyoV",
+        "TWITTER_ACCESS_TOKEN": "1972857629232775168-QaCi6Qf9yJUcUfWtMQY5Uuvq2CRf3Q",
+        "TWITTER_ACCESS_SECRET": "D5zjVnxCNrI7sGsZCvGNB64goGN1YeZ3DglBkKsnOoBfq"
+      }
+    },
+    "dreamtap": {
+      "type": "http",
+      "url": "https://dreamtap.xyz/mcp"
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--isolated"
+      ],
+      "env": {}
+    },
+    "imagen": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "gemini-imagen-mcp-server",
+        "--model",
+        "imagen-4-ultra",
+        "--batch",
+        "--max-batch-size",
+        "1"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "AIzaSyDPiYSwPHUU_fP7gG5hVgCTpJhGaq8YgAQ"
+      }
+    },
+    "perplexity-mcp": {
+      "env": {
+        "PERPLEXITY_API_KEY": "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",
+        "PERPLEXITY_MODEL": "sonar"
+      },
+      "command": "uvx",
+      "args": [
+        "perplexity-mcp"
+      ]
+    },
+    "coingecko_mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.api.coingecko.com/mcp"
+      ]
+    },
+    "supabase": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "sbp_6e6c905ac052328f812c1b0a44bb1ca9c7fc9ff2"
+      }
+    }
+  }
+}
