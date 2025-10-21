@@ -1,7 +1,15 @@
 import type { Context } from "@netlify/functions";
 
+interface NewsArticle {
+  title: string;
+  url: string;
+  source: string;
+  publishedAt: string;
+  snippet: string;
+}
+
 // Try Tavily API first
-async function fetchFromTavily() {
+async function fetchFromTavily(): Promise<NewsArticle[]> {
   const apiKey = process.env.VITE_TAVILY_API_KEY;
   if (!apiKey) {
     throw new Error("Tavily API key not configured");
@@ -41,7 +49,7 @@ async function fetchFromTavily() {
 }
 
 // Fallback to Perplexity API
-async function fetchFromPerplexity() {
+async function fetchFromPerplexity(): Promise<NewsArticle[]> {
   const apiKey = process.env.VITE_PERPLEXITY_API_KEY;
   if (!apiKey) {
     throw new Error("Perplexity API key not configured");
@@ -93,7 +101,7 @@ Focus on Bitcoin, Ethereum, Solana, and general crypto market news. Return ONLY 
 
   try {
     const articles = JSON.parse(jsonContent);
-    return Array.isArray(articles) ? articles : [];
+    return Array.isArray(articles) ? articles as NewsArticle[] : [];
   } catch (parseError) {
     console.error("Failed to parse Perplexity response:", parseError);
     return [];
@@ -115,7 +123,7 @@ export default async (req: Request, context: Context) => {
   }
 
   try {
-    let articles = [];
+    let articles: NewsArticle[] = [];
     let source = "tavily";
 
     try {
