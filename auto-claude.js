@@ -70,18 +70,39 @@ async function main() {
   console.log(startMessage);
   await logToSupabase(startMessage, 'system');
 
-  // Load MCP servers config
+  // Load MCP servers config (merge main + crypto configs)
   let mcpServers = {};
+
+  // Load main MCP config (.mcp.json)
   try {
     const mcpConfigPath = join(__dirname, '.mcp.json');
     const mcpConfigContent = await readFile(mcpConfigPath, 'utf-8');
     const mcpConfig = JSON.parse(mcpConfigContent);
     mcpServers = mcpConfig.mcpServers || {};
-    const msg = `✓ Loaded ${Object.keys(mcpServers).length} MCP servers`;
+    const msg = `✓ Loaded ${Object.keys(mcpServers).length} MCP servers from .mcp.json`;
     console.log(msg);
     await logToSupabase(msg, 'system');
   } catch (error) {
-    const msg = 'ℹ No .mcp.json found, running without MCP servers';
+    const msg = 'ℹ No .mcp.json found';
+    console.log(msg);
+    await logToSupabase(msg, 'system');
+  }
+
+  // Load crypto MCP config (.mcp.json.crypto) and merge
+  try {
+    const cryptoMcpPath = join(__dirname, '.mcp.json.crypto');
+    const cryptoMcpContent = await readFile(cryptoMcpPath, 'utf-8');
+    const cryptoMcpConfig = JSON.parse(cryptoMcpContent);
+    const cryptoServers = cryptoMcpConfig.mcpServers || {};
+
+    // Merge crypto servers into main config
+    mcpServers = { ...mcpServers, ...cryptoServers };
+
+    const msg = `✓ Merged ${Object.keys(cryptoServers).length} crypto MCP servers (total: ${Object.keys(mcpServers).length})`;
+    console.log(msg);
+    await logToSupabase(msg, 'system');
+  } catch (error) {
+    const msg = 'ℹ No .mcp.json.crypto found, skipping crypto servers';
     console.log(msg);
     await logToSupabase(msg, 'system');
   }

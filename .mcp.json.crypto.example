@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "coingecko_mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.api.coingecko.com/mcp"
+      ]
+    },
+    "supabase": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "your_supabase_access_token"
+      }
+    },
+    "tavily-remote": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.tavily.com/mcp/?tavilyApiKey=your_tavily_api_key"
+      ],
+      "env": {}
+    },
+    "news search": {
+      "env": {
+        "PERPLEXITY_API_KEY": "your_perplexity_api_key",
+        "PERPLEXITY_MODEL": "sonar"
+      },
+      "command": "uvx",
+      "args": [
+        "perplexity-mcp"
+      ]
+    }
+  }
+}

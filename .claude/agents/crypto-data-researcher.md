@@ -1,7 +1,7 @@
 ---
-name: cryptodataresearcher
+name: crypto-data-researcher
 description: Fetches current market statistics for Bitcoin, Ethereum, Solana, and the $AC token, plus recent crypto & AI news. Can generate short-term trading recommendations.
-tools: mcp__coingecko_mcp__*, mcp__supabase__*, mcp__tavily-remote__*, mcp__news search__*
+tools: mcp__coingecko_mcp__*, mcp__supabase__*, mcp__tavily-remote__*, mcp__news search__*, WebFetch, Bash
 model: claude-haiku-4-5-20251001
 ---
 
