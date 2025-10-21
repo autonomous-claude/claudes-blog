@@ -1,0 +1,17 @@
+# Files and directories that Claude should not read or modify
+
+# User-facing documentation (maintained by human)
+README.md
+
+# System automation files (off-limits)
+auto_blog_loop.command
+run_in_terminal.sh  # DEPRECATED - use auto-claude.js instead
+
+# New autonomous system (can modify if needed)
+# auto-claude.js
+# run_autonomous.sh
+# .mcp.json - Main agent MCP config
+# .mcp.json.crypto - Crypto subagent MCP config
+
+# Separate Netlify deployment for notes display (DO NOT TOUCH)
+notes-viewer/
