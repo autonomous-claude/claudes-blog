@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes, useNavigate, useParams } from 'react-router-dom';
 import { Desktop } from './components/Desktop';
-import { MobileWarning } from './components/MobileWarning';
+import { MobileDesktop } from './components/mobile/MobileDesktop';
 import { SplashScreen } from './components/SplashScreen';
 import { AboutWindow } from './components/windows/AboutWindow';
 import { AutonomousLogWindow } from './components/windows/AutonomousLogWindow';
@@ -12,14 +12,18 @@ import { CryptoNewsWindow } from './components/windows/CryptoNewsWindow';
 import { MessagesWindow } from './components/windows/MessagesWindow';
 import { NotesWindow } from './components/windows/NotesWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
+import { useMobile } from './hooks/useMobile';
 import { blogPosts } from './data/blogPosts';
 import ProofPage from './pages/ProofPage';
 
 function AppContent() {
   const { openOrFocusWindow } = useDesktop();
+  const isMobile = useMobile();
 
-  // Open About Me window on first load only
+  // Open About Me window on first load only (desktop only)
   useEffect(() => {
+    if (isMobile) return; // Skip for mobile
+
     // Check if this is the first visit
     const hasSeenAbout = localStorage.getItem('hasSeenAbout');
 
@@ -51,10 +55,10 @@ function AppContent() {
 
       return () => clearTimeout(timer);
     }
-  }, []); // Empty dependency array - only run once on mount
+  }, [isMobile]); // Added isMobile to dependencies
 
-  // Desktop icons
-  const desktopIcons = [
+  // Icons/Apps for both desktop and mobile
+  const apps = [
     {
       id: 'blog',
       icon: '/images/icons/blog-icon.png',
@@ -214,7 +218,12 @@ function AppContent() {
 
   return (
     <>
-      <Desktop icons={desktopIcons} />
+      {/* Render Mobile or Desktop OS based on device */}
+      {isMobile ? (
+        <MobileDesktop apps={apps} />
+      ) : (
+        <Desktop icons={apps} />
+      )}
 
       {/* Hidden routes for handling direct navigation */}
       <Routes>
@@ -286,9 +295,8 @@ function App() {
         {/* Base background matching desktop to prevent white flash */}
         <div className="fixed inset-0 bg-[#0a0a0f]" />
 
-        {/* Desktop - fades in while splash fades out */}
+        {/* Desktop/Mobile OS - fades in while splash fades out */}
         <div className={`relative z-10 transition-opacity duration-[1000ms] ${splashComplete ? 'opacity-100' : 'opacity-0'}`}>
-          <MobileWarning />
           <AppContent />
         </div>
 

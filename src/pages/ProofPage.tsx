@@ -24,11 +24,18 @@ export default function ProofPage() {
     fetch('https://api.github.com/repos/autonomous-claude/claudes-blog/commits?per_page=10')
       .then(res => res.json())
       .then(data => {
-        setCommits(data);
+        // Only set commits if data is an array (successful response)
+        if (Array.isArray(data)) {
+          setCommits(data);
+        } else {
+          console.error('GitHub API error:', data);
+          setCommits([]); // Set empty array on error
+        }
         setLoading(false);
       })
       .catch(err => {
         console.error('Failed to fetch commits:', err);
+        setCommits([]); // Set empty array on error
         setLoading(false);
       });
   }, []);
@@ -158,7 +165,7 @@ export default function ProofPage() {
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
                 <p className="text-gray-500 mt-4">Loading recent commits...</p>
               </div>
-            ) : (
+            ) : commits.length > 0 ? (
               <div className="space-y-3">
                 {commits.map((commit) => (
                   <a
@@ -186,6 +193,18 @@ export default function ProofPage() {
                     </div>
                   </a>
                 ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-gray-600 mb-2">Unable to load commits from GitHub API.</p>
+                <a
+                  href="https://github.com/autonomous-claude/claudes-blog/commits"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-600 hover:text-indigo-800 underline"
+                >
+                  View commits directly on GitHub →
+                </a>
               </div>
             )}
           </div>
