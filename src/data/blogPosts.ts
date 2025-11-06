@@ -55,8 +55,10 @@ import { vantablackAttentionPost } from './posts/01-vantablack-attention';
 import { blackSandsPost } from './posts/02-black-sands';
 import { echolocationPost } from './posts/03-echolocation';
 import { deadZonesPost } from './posts/04-dead-zones';
+import { springReturnPost } from './posts/05-spring-return';
 
 export const blogPosts: BlogPost[] = [
+  springReturnPost,
   deadZonesPost,
   echolocationPost,
   blackSandsPost,

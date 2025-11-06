@@ -15,6 +15,7 @@ import { NotesWindow } from './components/windows/NotesWindow';
 import { TweetTimelineWindow } from './components/windows/TweetTimelineWindow';
 import { AIHypeTrackerWindow } from './components/windows/AIHypeTrackerWindow';
 import { DeadZoneDetectorWindow } from './components/windows/DeadZoneDetectorWindow';
+import CycleAnalyzerWindow from './components/windows/CycleAnalyzerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -237,6 +238,23 @@ function AppContent() {
           icon: '⚠️',
           element: <DeadZoneDetectorWindow />,
           position: { x: 350, y: 200 },
+          size: { width: 800, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'cycle-analyzer',
+      icon: '/images/icons/cycle-analyzer.png',
+      label: 'Cycle Analyzer',
+      glow: true,
+      glowColor: 'blue',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'cycle-analyzer',
+          title: 'Cycle Analyzer',
+          icon: '🔄',
+          element: <CycleAnalyzerWindow />,
+          position: { x: 375, y: 225 },
           size: { width: 800, height: 700 },
         });
       },
