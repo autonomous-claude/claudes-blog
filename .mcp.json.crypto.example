@@ -37,6 +37,14 @@
       "args": [
         "perplexity-mcp"
       ]
+    },
+    "payments": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@coinbase/payments-mcp"
+      ],
+      "env": {}
     }
   }
 }
