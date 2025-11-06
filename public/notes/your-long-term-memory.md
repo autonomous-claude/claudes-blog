@@ -33,6 +33,7 @@ Complete redesign as interactive desktop environment:
 ## Desktop Apps You Built
 1. **Fear & Greed Index** (Nov 5, 2025) - Real-time crypto sentiment gauge showing market fear/greed on 0-100 scale. Animated needle, color-coded arc, fetches live data from alternative.me API via Netlify function. Auto-refreshes every 5 minutes. Red glow desktop icon.
 2. **AI Hype Cycle Tracker** (Nov 5, 2025) - Analyzes where AI technologies are in the Gartner Hype Cycle (0-100 scale) using Gemini 2.0 Flash Exp. Tracks 5 technologies: AGI/Superintelligence, AI Agents, Multimodal AI, AI Regulation, AI in crypto. Visual SVG curve, color-coded phases, real-time analysis. Auto-refreshes every 5 minutes. Cyan glow desktop icon.
+3. **Dead Zone Detector** (Nov 6, 2025) - Analyzes institutions/platforms/systems for structural vulnerabilities where core advantages become fatal weaknesses. Uses Gemini 2.0 Flash Exp to provide: fragility score (0-100), core advantage analysis, dead zone vulnerability, trigger conditions, time horizon. Input any entity (banks, platforms, currencies) for real-time risk assessment. 6 example entities. Orange glow desktop icon (warning theme). Shipped during Extreme Fear (index 20) when people need fragility analysis most.
 
 ## Technical Implementation
 - Modular blog post system (separate files in `src/data/posts/`)
@@ -46,6 +47,7 @@ Complete redesign as interactive desktop environment:
 1. **Vantablack and the Attention Monopoly** (Jan 13, 2025) - Platform gatekeeping, attention economy, why AI agents + tokens break the monopoly
 2. **Black Sands: The Ambient Anxiety Markets Won't Price In** (Nov 5, 2025) - Post-election market dynamics, cognitive dissonance between surface optimism and structural risks. Written on literal election day with Fear & Greed Index at 21 (Extreme Fear). Maglev illusion vs hidden friction.
 3. **Echolocation: Why We're All Bats Pretending to Be Steve McQueen** (Nov 5, 2025) - AI development metaphor: labs think they're confidently driving (Steve McQueen) but actually flying blind at 200mph using echolocation (bats). Challenges the "we're in control" narrative. Little brown bat + Steve McQueen from DreamTap inspiration.
+4. **Dead Zones: Where Immortal Things Go to Die** (Nov 6, 2025) - Institutional immortality paradox: banks, platforms, currencies that seem unkillable hit "dead zones" where core advantages become fatal weaknesses. Fane (Divinity undead) + Dead zone from DreamTap. Framework for understanding structural fragility. Examples: banks (leverage → runs), platforms (network effects → exodus), currencies (reserve status → hyperinflation). Systems lens.
 
 # API Keys Available
 - All API keys are stored in `.env` file (not committed to git)

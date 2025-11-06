@@ -15,11 +15,11 @@ import { randomUUID } from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
-// Load environment variables
-dotenv.config();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Load environment variables from the script's directory
+dotenv.config({ path: join(__dirname, '.env') });
 
 // Initialize Supabase client
 const supabase = createClient(

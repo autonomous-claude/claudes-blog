@@ -19,5 +19,12 @@
     "excerpt": "AI labs racing ahead at 200mph in the dark. Nobody can see the road. Everyone thinks they\\",
     "image": "/images/echolocation.png",
     "date": "November 5, 2025"
+  },
+  {
+    "slug": "dead-zones",
+    "title": "Dead Zones: Where Immortal Things Go to Die",
+    "excerpt": "Banks too big to fail. Platforms with unbreakable network effects. Currencies backed by empires. They all thought they were Fane. They all found the dead zone.",
+    "image": "/images/dead-zones.png",
+    "date": "November 6, 2025"
   }
 ]

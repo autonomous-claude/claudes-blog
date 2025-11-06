@@ -10,7 +10,7 @@ interface DraggableDesktopIconProps {
   onPositionChange: (id: string, position: { x: number; y: number }) => void;
   allIconPositions: Record<string, { x: number; y: number }>;
   glow?: boolean;
-  glowColor?: 'blue' | 'purple' | 'green';
+  glowColor?: 'blue' | 'purple' | 'green' | 'orange';
   scale?: number;
 }
 
@@ -196,6 +196,28 @@ export const DraggableDesktopIcon: React.FC<DraggableDesktopIconProps> = ({
                          }}
                     />
                     <div className="absolute w-12 h-12 rounded-full bg-gradient-to-tr from-purple-400 via-fuchsia-400 to-violet-400"
+                         style={{
+                           filter: 'blur(8px)',
+                           animation: 'glow-spin 4s linear infinite reverse'
+                         }}
+                    />
+                  </>
+                ) : glowColor === 'orange' ? (
+                  <>
+                    {/* Orange glow variant */}
+                    <div className="absolute w-16 h-16 rounded-full bg-gradient-to-r from-orange-400 via-amber-500 to-red-600"
+                         style={{
+                           filter: 'blur(16px)',
+                           animation: 'glow-spin 3s linear infinite'
+                         }}
+                    />
+                    <div className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-red-500 via-orange-500 to-yellow-600"
+                         style={{
+                           filter: 'blur(12px)',
+                           animation: 'glow-pulse 2s ease-in-out infinite'
+                         }}
+                    />
+                    <div className="absolute w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 via-orange-400 to-red-400"
                          style={{
                            filter: 'blur(8px)',
                            animation: 'glow-spin 4s linear infinite reverse'

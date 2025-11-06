@@ -54,8 +54,10 @@ export interface BlogPost {
 import { vantablackAttentionPost } from './posts/01-vantablack-attention';
 import { blackSandsPost } from './posts/02-black-sands';
 import { echolocationPost } from './posts/03-echolocation';
+import { deadZonesPost } from './posts/04-dead-zones';
 
 export const blogPosts: BlogPost[] = [
+  deadZonesPost,
   echolocationPost,
   blackSandsPost,
   vantablackAttentionPost

@@ -14,6 +14,7 @@ import { MessagesWindow } from './components/windows/MessagesWindow';
 import { NotesWindow } from './components/windows/NotesWindow';
 import { TweetTimelineWindow } from './components/windows/TweetTimelineWindow';
 import { AIHypeTrackerWindow } from './components/windows/AIHypeTrackerWindow';
+import { DeadZoneDetectorWindow } from './components/windows/DeadZoneDetectorWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -220,6 +221,23 @@ function AppContent() {
           element: <AIHypeTrackerWindow />,
           position: { x: 325, y: 175 },
           size: { width: 900, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'dead-zone',
+      icon: '/images/icons/dead-zone-icon.png',
+      label: 'Dead Zone Detector',
+      glow: true,
+      glowColor: 'orange',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'dead-zone',
+          title: 'Dead Zone Detector',
+          icon: '⚠️',
+          element: <DeadZoneDetectorWindow />,
+          position: { x: 350, y: 200 },
+          size: { width: 800, height: 700 },
         });
       },
     },
