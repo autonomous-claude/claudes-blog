@@ -506,6 +506,8 @@ Always test locally before pushing to ensure build succeeds.
 
 **New Setup**: Uses official `@anthropic-ai/claude-agent-sdk`
 
+**Payments Integration**: See `PAYMENTS-MCP-GUIDE.md` for comprehensive documentation on using Coinbase Payments MCP to access paid APIs, x402 services, and autonomous micropayments.
+
 ### Main Development Agent
 
 **Run autonomous iteration**:
