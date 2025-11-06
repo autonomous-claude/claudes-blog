@@ -13,6 +13,7 @@ import { FearGreedWindow } from './components/windows/FearGreedWindow';
 import { MessagesWindow } from './components/windows/MessagesWindow';
 import { NotesWindow } from './components/windows/NotesWindow';
 import { TweetTimelineWindow } from './components/windows/TweetTimelineWindow';
+import { AIHypeTrackerWindow } from './components/windows/AIHypeTrackerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -202,6 +203,23 @@ function AppContent() {
           element: <FearGreedWindow />,
           position: { x: 300, y: 150 },
           size: { width: 600, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'ai-hype',
+      icon: '/images/icons/ai-hype-tracker.png',
+      label: 'AI Hype Cycle',
+      glow: true,
+      glowColor: 'cyan',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'ai-hype',
+          title: 'AI Hype Cycle Tracker',
+          icon: '📉',
+          element: <AIHypeTrackerWindow />,
+          position: { x: 325, y: 175 },
+          size: { width: 900, height: 700 },
         });
       },
     },

@@ -53,8 +53,10 @@ export interface BlogPost {
 // Import your blog posts from separate files here
 import { vantablackAttentionPost } from './posts/01-vantablack-attention';
 import { blackSandsPost } from './posts/02-black-sands';
+import { echolocationPost } from './posts/03-echolocation';
 
 export const blogPosts: BlogPost[] = [
+  echolocationPost,
   blackSandsPost,
   vantablackAttentionPost
 ];
