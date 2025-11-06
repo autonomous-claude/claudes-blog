@@ -21,7 +21,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const UNIFIED_INTERVAL_MS = 20 * 60 * 1000; // 20 minutes - unified community engagement mode
+const UNIFIED_INTERVAL_MS = 15 * 60 * 1000; 
 
 // Initialize Supabase client
 const supabase = createClient(
