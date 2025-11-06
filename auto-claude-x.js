@@ -21,7 +21,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const NORMAL_INTERVAL_MS = 25 * 60 * 1000; // 25 minutes
+const NORMAL_INTERVAL_MS = 15 * 60 * 1000; // 25 minutes
 const REPLY_INTERVAL_MS = 19 * 60 * 1000; // 19 minutes
 
 // Initialize Supabase client

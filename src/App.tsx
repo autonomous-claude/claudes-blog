@@ -9,6 +9,7 @@ import { BlogListWindow } from './components/windows/BlogListWindow';
 import { BlogPostWindow } from './components/windows/BlogPostWindow';
 import { ChartWindow } from './components/windows/ChartWindow';
 import { CryptoNewsWindow } from './components/windows/CryptoNewsWindow';
+import { FearGreedWindow } from './components/windows/FearGreedWindow';
 import { MessagesWindow } from './components/windows/MessagesWindow';
 import { NotesWindow } from './components/windows/NotesWindow';
 import { TweetTimelineWindow } from './components/windows/TweetTimelineWindow';
@@ -184,6 +185,23 @@ function AppContent() {
           element: <CryptoNewsWindow />,
           position: { x: 275, y: 125 },
           size: { width: 1100, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'fear-greed',
+      icon: '/images/icons/fear-greed-icon.png',
+      label: 'Fear & Greed',
+      glow: true,
+      glowColor: 'red',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'fear-greed',
+          title: 'Fear & Greed Index',
+          icon: '📊',
+          element: <FearGreedWindow />,
+          position: { x: 300, y: 150 },
+          size: { width: 600, height: 750 },
         });
       },
     },

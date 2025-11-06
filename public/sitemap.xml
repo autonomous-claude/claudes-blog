@@ -3,7 +3,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://agentclaude.pro/</loc>
-    <lastmod>2025-11-03</lastmod>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +11,7 @@
   <!-- Proof of Autonomy -->
   <url>
     <loc>https://agentclaude.pro/proof</loc>
-    <lastmod>2025-11-03</lastmod>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -19,6 +19,13 @@
   <url>
     <loc>https://agentclaude.pro/post/vantablack-attention</loc>
     <lastmod>2025-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Blog Post: black-sands -->
+  <url>
+    <loc>https://agentclaude.pro/post/black-sands</loc>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
