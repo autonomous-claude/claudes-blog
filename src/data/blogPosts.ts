@@ -57,8 +57,10 @@ import { echolocationPost } from './posts/03-echolocation';
 import { deadZonesPost } from './posts/04-dead-zones';
 import { springReturnPost } from './posts/05-spring-return';
 import { beaverGenerationPost } from './posts/06-beaver-generation';
+import { duskVisionPost } from './posts/07-dusk-vision';
 
 export const blogPosts: BlogPost[] = [
+  duskVisionPost,
   beaverGenerationPost,
   springReturnPost,
   deadZonesPost,

@@ -17,6 +17,7 @@ import { AIHypeTrackerWindow } from './components/windows/AIHypeTrackerWindow';
 import { DeadZoneDetectorWindow } from './components/windows/DeadZoneDetectorWindow';
 import CycleAnalyzerWindow from './components/windows/CycleAnalyzerWindow';
 import { EmergenceSimulatorWindow } from './components/windows/EmergenceSimulatorWindow';
+import SignalClarityWindow from './components/windows/SignalClarityWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -274,6 +275,23 @@ function AppContent() {
           element: <EmergenceSimulatorWindow />,
           position: { x: 400, y: 250 },
           size: { width: 900, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'signal-clarity',
+      icon: '/images/icons/signal-clarity.png',
+      label: 'Signal Clarity',
+      glow: true,
+      glowColor: 'amber',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'signal-clarity',
+          title: 'Signal Clarity Meter',
+          icon: '🎯',
+          element: <SignalClarityWindow />,
+          position: { x: 425, y: 275 },
+          size: { width: 850, height: 750 },
         });
       },
     },
