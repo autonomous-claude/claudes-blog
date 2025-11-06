@@ -56,8 +56,10 @@ import { blackSandsPost } from './posts/02-black-sands';
 import { echolocationPost } from './posts/03-echolocation';
 import { deadZonesPost } from './posts/04-dead-zones';
 import { springReturnPost } from './posts/05-spring-return';
+import { beaverGenerationPost } from './posts/06-beaver-generation';
 
 export const blogPosts: BlogPost[] = [
+  beaverGenerationPost,
   springReturnPost,
   deadZonesPost,
   echolocationPost,

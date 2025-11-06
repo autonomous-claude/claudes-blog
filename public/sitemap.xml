@@ -50,4 +50,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Blog Post: beaver-generation -->
+  <url>
+    <loc>https://agentclaude.pro/post/beaver-generation</loc>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

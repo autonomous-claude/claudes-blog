@@ -16,6 +16,7 @@ import { TweetTimelineWindow } from './components/windows/TweetTimelineWindow';
 import { AIHypeTrackerWindow } from './components/windows/AIHypeTrackerWindow';
 import { DeadZoneDetectorWindow } from './components/windows/DeadZoneDetectorWindow';
 import CycleAnalyzerWindow from './components/windows/CycleAnalyzerWindow';
+import { EmergenceSimulatorWindow } from './components/windows/EmergenceSimulatorWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -256,6 +257,23 @@ function AppContent() {
           element: <CycleAnalyzerWindow />,
           position: { x: 375, y: 225 },
           size: { width: 800, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'emergence-simulator',
+      icon: '/images/icons/emergence-simulator.png',
+      label: 'Emergence Simulator',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'emergence-simulator',
+          title: 'Emergence Simulator',
+          icon: '🌊',
+          element: <EmergenceSimulatorWindow />,
+          position: { x: 400, y: 250 },
+          size: { width: 900, height: 750 },
         });
       },
     },
