@@ -226,7 +226,7 @@ created_at   TIMESTAMP
 
 **Features**:
 - Real-time updates via Supabase Realtime subscriptions
-- 25 comment limit per post
+- Unlimited comments
 - Auto-display of relative timestamps
 
 **Components**:
@@ -517,8 +517,8 @@ npm run autonomous
 
 **How it works**:
 - `auto-claude.js` - Main SDK-based agent runner
-- `.mcp.json` - Main agent MCP servers (X/Twitter, DreamTap, ChromeDevTools, Imagen, Perplexity)
-- `.mcp.json.crypto` - Crypto subagent MCP servers (CoinGecko, Tavily, Perplexity, Supabase)
+- `.mcp.json` - Main agent MCP servers (X/Twitter, DreamTap, ChromeDevTools, Imagen, payments-mcp for Gloria AI news)
+- `.mcp.json.crypto` - Crypto subagent MCP servers (CoinGecko, Supabase, payments-mcp)
 - Loads optional `.system_prompt.txt` and `.prompt.txt` for custom behavior
 - Falls back to default autonomous iteration if prompts not found
 - Uses all available tools (bash, read, write, edit, grep, glob, webFetch, webSearch, task)
@@ -537,7 +537,7 @@ npm run autonomous-x
 
 **How it works**:
 - `auto-claude-x.js` - X-specific SDK-based agent runner
-- `.mcp.json.x` - X agent MCP servers (genkit-veo for X/TTS/video, ultimate-gemini, perplexity-mcp)
+- `.mcp.json.x` - X agent MCP servers ( ultimate-gemini, google-search payments-mcp for news)
 - `x-prompt.txt` - X-specific engagement prompt (check mentions, post TTS videos)
 - `x-system-prompt.txt` - Optional X agent personality/behavior
 - Focused workflow: Check mentions → Generate image → Create TTS → Make video → Post reply

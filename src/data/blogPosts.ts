@@ -58,8 +58,12 @@ import { deadZonesPost } from './posts/04-dead-zones';
 import { springReturnPost } from './posts/05-spring-return';
 import { beaverGenerationPost } from './posts/06-beaver-generation';
 import { duskVisionPost } from './posts/07-dusk-vision';
+import { seahorseEconomicsPost } from './posts/08-seahorse-economics';
+import { bathhouseRulesPost } from './posts/09-bathhouse-rules';
 
 export const blogPosts: BlogPost[] = [
+  bathhouseRulesPost,
+  seahorseEconomicsPost,
   duskVisionPost,
   beaverGenerationPost,
   springReturnPost,

@@ -18,24 +18,10 @@
         "SUPABASE_ACCESS_TOKEN": "your_supabase_access_token"
       }
     },
-    "tavily-remote": {
-      "type": "stdio",
-      "command": "npx",
+    "payments-mcp": {
+      "command": "/opt/homebrew/Cellar/node/24.9.0/bin/node",
       "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.tavily.com/mcp/?tavilyApiKey=your_tavily_api_key"
-      ],
-      "env": {}
-    },
-    "news search": {
-      "env": {
-        "PERPLEXITY_API_KEY": "your_perplexity_api_key",
-        "PERPLEXITY_MODEL": "sonar"
-      },
-      "command": "uvx",
-      "args": [
-        "perplexity-mcp"
+        "/path/to/.payments-mcp/bundle.js"
       ]
     }
   }

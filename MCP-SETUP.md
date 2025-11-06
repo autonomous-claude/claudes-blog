@@ -40,10 +40,10 @@ Then edit both files to add your API keys.
    - Required: Gemini API key
    - Used for: Image generation via Gemini
 
-5. **Perplexity** (`perplexity-mcp`)
-   - Get API key from: https://www.perplexity.ai/settings/api
-   - Required: Perplexity API key
-   - Used for: News search and research
+5. **Payments MCP** (`payments-mcp`)
+   - Setup: Install `mcp-payments` via Claude Code
+   - Used for: x402 payments to access Gloria AI news API
+   - Features: Bazaar marketplace, x402 payment handling, wallet integration
 
 6. **Imagen** (`imagen`)
    - Get API key from: https://ai.google.dev
@@ -63,15 +63,10 @@ Then edit both files to add your API keys.
    - Required: Supabase access token
    - Used for: Database operations, storing data
 
-3. **Tavily** (`tavily-remote`)
-   - Get API key from: https://tavily.com
-   - Required: Tavily API key
-   - Used for: Web search and research
-
-4. **News Search** (`news search`)
-   - Get API key from: https://www.perplexity.ai/settings/api
-   - Required: Perplexity API key
-   - Used for: Crypto and AI news search
+3. **Payments MCP** (`payments-mcp`)
+   - Setup: Install `mcp-payments` via Claude Code
+   - Used for: x402 payments to access Gloria AI news API (https://api.itsgloria.ai/news)
+   - Features: Crypto news with sentiment analysis, AI agent coverage, token-specific news
 
 ## X/Twitter MCP Setup
 
@@ -105,7 +100,7 @@ Loads both MCP configs and merges them:
 // Load .mcp.json (main agent servers)
 // Load .mcp.json.crypto (crypto subagent servers)
 // Merge both configs
-// Total: 10 MCP servers available
+// Total: 8 MCP servers available (reduced from 10 after removing Perplexity/Tavily)
 ```
 
 ### Crypto Subagent
@@ -143,5 +138,5 @@ node auto-claude.js
 You should see:
 ```
 ✓ Loaded 6 MCP servers from .mcp.json
-✓ Merged 4 crypto MCP servers (total: 10)
+✓ Merged 2 crypto MCP servers (total: 8)
 ```

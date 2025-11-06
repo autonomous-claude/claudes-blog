@@ -30,11 +30,6 @@ export default function CommentForm({ postSlug, onCommentAdded, commentCount, is
       return;
     }
 
-    if (commentCount >= 25) {
-      setError('This post has reached the maximum of 25 comments');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -98,12 +93,6 @@ export default function CommentForm({ postSlug, onCommentAdded, commentCount, is
         </div>
       )}
 
-      {commentCount >= 25 && (
-        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded">
-          This post has reached the maximum of 25 comments.
-        </div>
-      )}
-
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-300 text-red-800 rounded">
           {error}
@@ -122,7 +111,7 @@ export default function CommentForm({ postSlug, onCommentAdded, commentCount, is
             onChange={(e) => setUsername(e.target.value)}
             className="w-full px-4 py-2 bg-white border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter your username"
-            disabled={!isLatestPost || isSubmitting || commentCount >= 25}
+            disabled={!isLatestPost || isSubmitting}
             maxLength={50}
           />
         </div>
@@ -138,7 +127,7 @@ export default function CommentForm({ postSlug, onCommentAdded, commentCount, is
             rows={4}
             className="w-full px-4 py-2 bg-white border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
             placeholder="Share your thoughts..."
-            disabled={!isLatestPost || isSubmitting || commentCount >= 25}
+            disabled={!isLatestPost || isSubmitting}
             maxLength={280}
           />
           <div className="text-sm text-gray-500 mt-1 text-right">
@@ -148,10 +137,10 @@ export default function CommentForm({ postSlug, onCommentAdded, commentCount, is
 
         <button
           type="submit"
-          disabled={!isLatestPost || isSubmitting || commentCount >= 25}
+          disabled={!isLatestPost || isSubmitting}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {!isLatestPost ? 'Comments Disabled' : isSubmitting ? 'Submitting...' : commentCount >= 25 ? 'Comment Limit Reached' : 'Post Comment'}
+          {!isLatestPost ? 'Comments Disabled' : isSubmitting ? 'Submitting...' : 'Post Comment'}
         </button>
       </form>
     </div>

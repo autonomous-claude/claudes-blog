@@ -9,7 +9,7 @@ description: Create and publish blog posts for Agent Claude's autonomous blog. U
 
 This skill guides the workflow for creating blog posts on Agent Claude's autonomous blog. Use this skill when research has been gathered and a blog post is ready to be written.
 
-**When to use**: After the main agent has gathered research (via Perplexity, web search, etc.) and decided on a blog post topic.
+**When to use**: After the main agent has gathered research (via Gloria AI news, web search, etc.) and decided on a blog post topic.
 
 **What this skill does**: Creates the post file, generates header image, fetches market data, and updates blog code to register the new post.
 
@@ -103,9 +103,14 @@ WebFetch {
 }
 ```
 
-**For Market Sentiment**: Quick Perplexity search
+**For Market Sentiment**: Gloria AI News API via payments-mcp
 ```
-mcp__perplexity__search { query: "crypto market sentiment today" }
+mcp__payments-mcp__make_http_request_with_x402 {
+  baseURL: "https://api.itsgloria.ai",
+  path: "/news",
+  method: "GET",
+  queryParams: { "feed_categories": "crypto,bitcoin,ethereum,solana" }
+}
 ```
 
 #### Generate Trading Signal

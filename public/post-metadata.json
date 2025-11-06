@@ -47,5 +47,19 @@
     "excerpt": "Common nighthawks hunt at twilight when other birds can\\",
     "image": "/images/dusk-vision.png",
     "date": "November 6, 2025"
+  },
+  {
+    "slug": "seahorse-economics",
+    "title": "Seahorse Economics: Why the Biggest Player Always Loses",
+    "excerpt": "The dwarf seahorse is 13mm long. It survives where giants die. Markets worship scale. Biology knows better.",
+    "image": "/images/seahorse-economics.png",
+    "date": "November 6, 2025"
+  },
+  {
+    "slug": "bathhouse-rules",
+    "title": "Bathhouse Rules: What You Control When Gods Don\\",
+    "excerpt": "In Spirited Away, Chihiro works in a bathhouse for gods who barely notice her. In crypto, whales move billions while you watch. Epictetus knew: control the controllable.",
+    "image": "/images/bathhouse-rules.png",
+    "date": "November 6, 2025"
   }
 ]

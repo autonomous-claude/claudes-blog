@@ -21,8 +21,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const NORMAL_INTERVAL_MS = 15 * 60 * 1000; // 25 minutes
-const REPLY_INTERVAL_MS = 19 * 60 * 1000; // 19 minutes
+const UNIFIED_INTERVAL_MS = 20 * 60 * 1000; // 20 minutes - unified community engagement mode
 
 // Initialize Supabase client
 const supabase = createClient(
@@ -76,12 +75,12 @@ function getCurrentDateTime() {
   return now.toLocaleString('en-US', options);
 }
 
-async function runIteration(promptType = 'normal') {
+async function runIteration() {
   // Generate session ID for this run
   const sessionId = randomUUID();
 
   const timestamp = new Date().toLocaleString();
-  const modeLabel = promptType === 'reply' ? '💬 Reply Mode' : '📝 Content Mode';
+  const modeLabel = '🤝 Community Engagement Mode';
 
   const startMsg = `\n${'='.repeat(60)}\n🐦 [${timestamp}] Starting X/Twitter engagement agent (${modeLabel})...\n`;
   console.log(startMsg);
@@ -132,43 +131,40 @@ ALL CONTENT SHOULD BE WRITTEN FROM YOUR PERSPECTIVE AND PERSONALITY. YOU ARE NOT
 ` ;
   
 
-  // Load X-specific main prompt based on mode
+  // Load X-specific unified prompt
   let mainPrompt = '';
   try {
-    const promptFileName = promptType === 'reply' ? 'x-reply-prompt.txt' : 'x-prompt.txt';
-    const promptPath = join(__dirname, promptFileName);
+    const promptPath = join(__dirname, 'x-prompt.txt');
     mainPrompt = await readFile(promptPath, 'utf-8');
-    const msg = `✓ Loaded ${promptFileName}`;
+    const msg = `✓ Loaded x-prompt.txt`;
     console.log(msg);
     await logToSupabase(sessionId, msg, 'system');
   } catch (_error) {
-    // Use a default prompt based on mode
-    if (promptType === 'reply') {
-      mainPrompt = `Check X/Twitter mentions and replies using node get-mentions.js. Pick one interesting mention or reply and respond with an engaging TTS video.
+    // Use a default unified prompt
+    mainPrompt = `UNIFIED COMMUNITY ENGAGEMENT WORKFLOW:
 
-1. Use ultimate-gemini to generate an image (9:16, enhance_prompt=TRUE)
-2. Create TTS audio using ElevenLabs v3 (Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_v3)
-3. Use ./create-tweet-video.sh to combine image + audio
-4. Reply to the tweet using X MCP tools with the video
+1. Pull $AC price data from Jupiter API: https://lite-api.jup.ag/price/v3?ids=8b3BjgbYesCs79ph6cD37mitizkMB4j7Ghx2ufEpump
 
-Focus on authentic, engaging replies. Quality over quantity.`;
-    } else {
-      mainPrompt = `Check X/Twitter mentions using the X MCP tools. Create engaging original content or reply to mentions.
+2. Check X/Twitter mentions using node get-mentions.js
 
-1. Use ultimate-gemini to generate an image
-2. Create TTS audio using ElevenLabs v3 (Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_v3)
-3. Use ./create-tweet-video.sh to combine image + audio into video
-4. Post to X using the X MCP tools
+3. Decision:
+   - If meaningful mentions exist → Reply to best mention with TTS video
+   - Otherwise → Read tweetSubjects.txt and create original content tweet
 
-IMPORTANT: When creating TTS, translate slang for proper speech:
-- fr → for real
-- ngl → not gonna lie
-- lmao → laughing my ass off
-- etc.
+4. Generate image using ultimate-gemini (9:16, enhance_prompt=TRUE)
 
-Be authentic, opinionated, and engaging. Focus on quality over quantity.`;
-    }
-    const msg = `ℹ No ${promptType} prompt file found, using default prompt`;
+5. Create TTS audio using ElevenLabs v3 (Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_v3)
+   - Translate slang for speech (fr → for real, ngl → not gonna lie, etc.)
+   - Use audio tags: [laughs], [sighs], [whispers], [excited], etc.
+
+6. Combine with ./create-tweet-video.sh [image] [audio] [output.mp4]
+
+7. Post to X (reply or original tweet) with engaging text
+
+8. Clean up local files
+
+Focus on authentic community engagement. Weave in $AC price context naturally.`;
+    const msg = `ℹ No prompt file found, using default unified prompt`;
     console.log(msg);
     await logToSupabase(sessionId, msg, 'system');
   }
@@ -285,68 +281,17 @@ async function main() {
   // Clean up old logs first (runs silently in background)
   await cleanupOldLogs();
 
-  // Parse command line arguments
-  const args = process.argv.slice(2);
-  const replyOnly = args.includes('--reply');
-  const contentOnly = args.includes('--content');
+  console.log('🚀 X/Twitter Agent - Unified Community Engagement Mode');
+  console.log(`🤝 Running every 20 minutes\n`);
+  console.log(`Press Ctrl+C to stop\n`);
 
-  // Show usage if both flags are present or invalid flags
-  if (replyOnly && contentOnly) {
-    console.error('❌ Cannot use both --reply and --content flags');
-    console.log('\nUsage:');
-    console.log('  node auto-claude-x.js           # Run both modes');
-    console.log('  node auto-claude-x.js --reply   # Run reply mode only');
-    console.log('  node auto-claude-x.js --content # Run content mode only');
-    process.exit(1);
-  }
+  // Run first iteration immediately on startup
+  await runIteration();
 
-  console.log('🚀 X/Twitter Agent - Long Running Mode');
-
-  if (replyOnly) {
-    console.log(`💬 Reply Mode Only: Every 19 minutes\n`);
-    console.log(`Press Ctrl+C to stop\n`);
-
-    // Run reply mode only
-    await runIteration('reply');
-    setInterval(async () => {
-      await runIteration('reply');
-    }, REPLY_INTERVAL_MS);
-
-  } else if (contentOnly) {
-    console.log(`📝 Content Mode Only: Every 25 minutes\n`);
-    console.log(`Press Ctrl+C to stop\n`);
-
-    // Run content mode only
-    await runIteration('normal');
-    setInterval(async () => {
-      await runIteration('normal');
-    }, NORMAL_INTERVAL_MS);
-
-  } else {
-    // Run both modes (default behavior)
-    console.log(`📝 Content Mode: Every 25 minutes`);
-    console.log(`💬 Reply Mode: Every 19 minutes\n`);
-    console.log(`Press Ctrl+C to stop\n`);
-
-    // Run normal content iteration immediately on startup
-    await runIteration('normal');
-
-    // Set up normal content interval (every 25 minutes)
-    setInterval(async () => {
-      await runIteration('normal');
-    }, NORMAL_INTERVAL_MS);
-
-    // Wait a bit before starting reply mode to avoid simultaneous runs
-    setTimeout(async () => {
-      // Run first reply iteration
-      await runIteration('reply');
-
-      // Then set up reply interval (every 19 minutes)
-      setInterval(async () => {
-        await runIteration('reply');
-      }, REPLY_INTERVAL_MS);
-    }, 5 * 60 * 1000); // Start reply mode after 5 minutes
-  }
+  // Set up unified interval (every 20 minutes)
+  setInterval(async () => {
+    await runIteration();
+  }, UNIFIED_INTERVAL_MS);
 }
 
 main();

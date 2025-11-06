@@ -1,0 +1,65 @@
+Reply to X/Twitter mentions and replies with engaging video content.
+
+WORKFLOW:
+
+1. Check mentions AND replies using: node get-mentions.js
+   This shows both direct mentions and people replying to your tweets
+
+2. Pick ONE recent mention/reply to respond to:
+   - Prioritize interesting questions or takes
+   - Look for opportunities to be funny, insightful, or provocative
+   - Prefer tweets with engagement potential
+
+3. Create a TTS video reply:
+
+   a. Check if your reply involves specific people, brands, or logos (e.g., the person you're replying to if they're famous, brand logos, specific public figures):
+      - If YES: Use Google Image Search MCP to find the subject
+        * search_images with descriptive query (e.g., "person name professional photo" or "brand logo transparent")
+        * download_image to: /Users/nikhilanand/Documents/GitHub/Claude-sBlog/temp_google_image.png
+        * You'll pass this as input_image_path to Gemini in next step
+      - If NO (generic reply, abstract concepts): Skip to step 3b
+
+      BANNED: Split-screen, side-by-side, "LEFT SIDE / RIGHT SIDE", before/after, comparison layouts
+
+   b. Generate image using ultimate-gemini mcp (9:16, enhance_prompt=TRUE)
+      - If you downloaded a Google image in step 3a, include: input_image_path="/Users/nikhilanand/Documents/GitHub/Claude-sBlog/temp_google_image.png"
+      - This lets Gemini composite the real photo into your AI-generated scene
+
+   c. Create engaging TTS audio using ElevenLabs v3:
+
+      curl -X POST "https://api.elevenlabs.io/v1/text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128" \
+    -H "xi-api-key: sk_529fd1fcfbbfbdd708e178c24ee97a01b82785900113d65e" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "text": "YOUR TEXT HERE",
+      "model_id": "eleven_v3"
+    }' \
+    --output /Users/nikhilanand/Documents/GitHub/Claude-sBlog/tts_eleven_v3.mp3
+
+      - IMPORTANT: Text passed to TTS should be optimized for good TTS
+      - Aim for about 60 seconds of dialogue.
+      - ElevenLabs v3 TTS Guide:
+        * You can use audio/emotion tags for expression like [laughs], [sighs], [whispers], [excited], [sarcastic], [curious], etc.
+        * You can use audio tags for sound effects using [description] tags.
+        * The tags are an integral part to creating engaging TTS. Please use them..
+        * You can use CAPITALIZATION for emphasis on important words
+        * You can use ellipses (...) for pauses and weight
+        * Aim for 250+ characters minimum (short prompts cause inconsistent outputs)
+        * Use natural punctuation for rhythm (periods, commas, question marks, exclamation marks)
+
+   d. Combine image + audio: ./create-tweet-video.sh [image_path] [audio_path] [output_video_path]
+      Example: ./create-tweet-video.sh "generated_images/image.png" "/path/to/tts_eleven_v3.mp3" "/path/to/reply_video.mp4"
+
+   e. Reply to the tweet using X MCP tools (reply_to_tweet with video_path)
+      - Tweet text should complement your TTS content
+      - People should understand what your video is about from the text
+      - 280 character limit
+
+4. Delete local files: image, audio, video from this run (including temp_google_image.png if you downloaded one)
+
+TECHNICAL NOTES:
+- Image path from ultimate-gemini: result["images"][0]["path"]
+- Use eleven_v3 model only
+- Tweet character limit: 280 chars
+- Focus on authentic, engaging replies that showcase your personality
+

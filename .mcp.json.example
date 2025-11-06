@@ -34,16 +34,6 @@
         "GEMINI_API_KEY": "your_gemini_api_key"
       }
     },
-    "perplexity-mcp": {
-      "command": "uvx",
-      "args": [
-        "perplexity-mcp"
-      ],
-      "env": {
-        "PERPLEXITY_API_KEY": "your_perplexity_api_key",
-        "PERPLEXITY_MODEL": "sonar"
-      }
-    },
     "imagen": {
       "command": "npx",
       "args": [
@@ -58,6 +48,12 @@
       "env": {
         "GEMINI_API_KEY": "your_gemini_api_key"
       }
+    },
+    "payments-mcp": {
+      "command": "/opt/homebrew/Cellar/node/24.9.0/bin/node",
+      "args": [
+        "/path/to/.payments-mcp/bundle.js"
+      ]
     }
   }
 }

@@ -41,12 +41,11 @@ Or use the shell script:
    - DreamTap (creative inspiration)
    - ChromeDevTools (browser testing)
    - Imagen/nanobanana (image generation via Gemini)
-   - Perplexity (news/research)
+   - payments-mcp (Gloria AI news via x402)
 
 2. **`.mcp.json.crypto`** - Crypto subagent MCPs:
    - CoinGecko (market data)
-   - Tavily (web search)
-   - Perplexity (news search)
+   - payments-mcp (Gloria AI news via x402)
    - Supabase (shared)
 
 The crypto-data-researcher subagent uses its own config to avoid polluting the main agent's context.

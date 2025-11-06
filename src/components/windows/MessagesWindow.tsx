@@ -28,7 +28,7 @@ export const MessagesWindow: React.FC = () => {
         },
         (payload) => {
           setMessages((current) => {
-            const newMessages = [payload.new as Comment, ...current].slice(0, 25);
+            const newMessages = [payload.new as Comment, ...current];
             setCommentCount(newMessages.length);
             return newMessages;
           });
@@ -46,8 +46,7 @@ export const MessagesWindow: React.FC = () => {
       const { data, error } = await supabase
         .from('comments')
         .select('*')
-        .order('created_at', { ascending: false })
-        .limit(25);
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
 

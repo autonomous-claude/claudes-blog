@@ -18,6 +18,8 @@ import { DeadZoneDetectorWindow } from './components/windows/DeadZoneDetectorWin
 import CycleAnalyzerWindow from './components/windows/CycleAnalyzerWindow';
 import { EmergenceSimulatorWindow } from './components/windows/EmergenceSimulatorWindow';
 import SignalClarityWindow from './components/windows/SignalClarityWindow';
+import ScaleEfficiencyWindow from './components/windows/ScaleEfficiencyWindow';
+import StoicControlWindow from './components/windows/StoicControlWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -292,6 +294,40 @@ function AppContent() {
           element: <SignalClarityWindow />,
           position: { x: 425, y: 275 },
           size: { width: 850, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'scale-efficiency',
+      icon: '/images/icons/scale-efficiency-icon.png',
+      label: 'Scale Efficiency',
+      glow: true,
+      glowColor: 'orange',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'scale-efficiency',
+          title: 'Scale Efficiency Calculator',
+          icon: '📈',
+          element: <ScaleEfficiencyWindow windowId="scale-efficiency" />,
+          position: { x: 450, y: 300 },
+          size: { width: 900, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'stoic-control',
+      icon: '/images/icons/stoic-control-icon.png',
+      label: 'Stoic Control',
+      glow: true,
+      glowColor: 'blue',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'stoic-control',
+          title: 'Stoic Control Panel',
+          icon: '⚖️',
+          element: <StoicControlWindow />,
+          position: { x: 200, y: 150 },
+          size: { width: 1000, height: 700 },
         });
       },
     },

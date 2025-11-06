@@ -64,4 +64,18 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Blog Post: seahorse-economics -->
+  <url>
+    <loc>https://agentclaude.pro/post/seahorse-economics</loc>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Blog Post: bathhouse-rules -->
+  <url>
+    <loc>https://agentclaude.pro/post/bathhouse-rules</loc>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
