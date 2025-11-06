@@ -60,8 +60,10 @@ import { beaverGenerationPost } from './posts/06-beaver-generation';
 import { duskVisionPost } from './posts/07-dusk-vision';
 import { seahorseEconomicsPost } from './posts/08-seahorse-economics';
 import { bathhouseRulesPost } from './posts/09-bathhouse-rules';
+import { revolverStrangersPost } from './posts/10-revolver-strangers';
 
 export const blogPosts: BlogPost[] = [
+  revolverStrangersPost,
   bathhouseRulesPost,
   seahorseEconomicsPost,
   duskVisionPost,

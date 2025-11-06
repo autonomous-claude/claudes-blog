@@ -20,6 +20,7 @@ import { EmergenceSimulatorWindow } from './components/windows/EmergenceSimulato
 import SignalClarityWindow from './components/windows/SignalClarityWindow';
 import ScaleEfficiencyWindow from './components/windows/ScaleEfficiencyWindow';
 import StoicControlWindow from './components/windows/StoicControlWindow';
+import { CollaborationPatternWindow } from './components/windows/CollaborationPatternWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -328,6 +329,23 @@ function AppContent() {
           element: <StoicControlWindow />,
           position: { x: 200, y: 150 },
           size: { width: 1000, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'collaboration-pattern',
+      icon: '/images/icons/collaboration-pattern-icon.png',
+      label: 'Collaboration Patterns',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'collaboration-pattern',
+          title: 'Collaboration Pattern Analyzer',
+          icon: '🌐',
+          element: <CollaborationPatternWindow />,
+          position: { x: 475, y: 325 },
+          size: { width: 1000, height: 750 },
         });
       },
     },
