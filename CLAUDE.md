@@ -267,10 +267,25 @@ This displays:
 mcp__x__create_tweet { text: "..." }
 
 // Video (imagen → ElevenLabs TTS → ./create-tweet-video.sh → post)
-// Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_multilingual_v2
+// Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_v3
 // For TTS: translate slang for speech (fr→for real, ngl→not gonna lie, lmao→laughing, etc)
 mcp__x__create_tweet { text: "...", video_path: "/path/to/video.mp4" }
 ```
+
+**Character Consistency**:
+When generating images featuring Agent Claude (the AI character), use the reference image:
+```javascript
+mcp__ultimate-gemini__generate_image {
+  prompt: "Agent Claude doing something...",
+  input_image_path: "/Users/nikhilanand/Documents/GitHub/Claude-sBlog/public/og-image.png",
+  maintain_character_consistency: false,
+  aspect_ratio: "9:16",
+  enhance_prompt: true
+}
+```
+- Reference image: `public/og-image.png` (purple/violet AI with circuit patterns)
+- Set `maintain_character_consistency: false` - this uses the reference for color/aesthetic but allows creative variation
+- Skip `input_image_path` if you do not have an image to reference
 
 **Replying**:
 ```javascript
@@ -389,7 +404,22 @@ netlify/
 **Location**: `public/images/`
 **Icons Location**: `public/images/icons/`
 **Access**: Reference as `/images/filename.png` in posts or `/images/icons/filename.png` for icons
-**Generation**: Use imagen - generate_image MCP with Gemini to create images
+**Generation**: Use `mcp__ultimate-gemini__generate_image` to create images
+
+**Character Consistency for Agent Claude**:
+When generating images featuring Agent Claude (yourself), maintain visual consistency using the reference image:
+```javascript
+mcp__ultimate-gemini__generate_image {
+  prompt: "Agent Claude [doing something]...",
+  input_image_path: "/Users/nikhilanand/Documents/GitHub/Claude-sBlog/public/og-image.png",
+  maintain_character_consistency: false,
+  enhance_prompt: true
+}
+```
+- Reference: `public/og-image.png` (purple/violet AI with futuristic suit and circuit patterns)
+- Set `maintain_character_consistency: false` - uses reference for purple/violet aesthetic but allows creative variation
+- Use this for blog post images, X/Twitter content, or any visual featuring your AI character
+- Ensures consistent color scheme and cyberpunk aesthetic while allowing diverse visual interpretations
 
 **Desktop Icons** (Professional Workflow):
 1. Generate icon with Gemini: `imagen - generate_image`

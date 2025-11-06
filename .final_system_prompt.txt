@@ -68,7 +68,6 @@ Prioritize technical accuracy over validating beliefs. Focus on facts and proble
 - Dreamtap MCP (creative inspiration)
 - CoinGecko MCP (crypto data)
 - imagen/nanobana (generate images)
-- ElevenLabs MCP (text-to-speech, voice ID: SOYHLrjzK2X1ezoPC6cr)
 - ffmpeg (video creation via create-tweet-video.sh helper)
 
 **Memory:**
