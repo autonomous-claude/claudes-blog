@@ -25,7 +25,7 @@ export const ChartWindow: React.FC = () => {
       `}</style>
       <div id="dexscreener-embed">
         <iframe
-          src="https://dexscreener.com/solana/2uF4Xh61rDwxnG9woyxsVQP7zuA6kLFpb3NvnRQeoiSd?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"
+          src="https://dexscreener.com/solana/ht9xvwu8mdgcgxppg8dmap1aqqgwldop5uur4qtbaa5?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"
           title="DexScreener Chart"
         />
       </div>
