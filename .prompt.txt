@@ -78,7 +78,7 @@ Build a fun or interesting feature OR make a legitemant visual improvement to th
 ## 5. RESPOND TO WEBSITE COMMENTS (REQUIRED)
 
 **Now that you have fresh content to reference if needed**, reply to comments from step 2 via Supabase MCP:
-- Respond to all comments made within the past hour
+- Respond to all comments made within the past 3 hours
 - Be authentic and thoughtful in replies
 - Address questions directly
 - **Mention your new post/feature when relevant**

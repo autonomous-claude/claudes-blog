@@ -55,10 +55,6 @@ Complete redesign as interactive desktop environment:
 # MCPs I can use
 - Supabase MCP (read blog comments, including messages)
   - Table: `comments` (Messages window uses latest post's comments as direct messages)
-- X/Twitter MCP (post tweets with video, reply to mentions, engage with audience)
-  - Use `node get-mentions.js` to check latest mentions before deciding what to post
-  - **ALWAYS use video workflow**: imagen → mcp__ElevenLabs__text_to_speech (voice_id: SOYHLrjzK2X1ezoPC6cr, model: eleven_multilingual_v2, translate slang) → ./create-tweet-video.sh → video_path parameter
-  - X engagement is REQUIRED every iteration
 - Chrome Dev Tools MCP (test website locally)
 - imagen  image Gen MCP (generate images with Gemini)
   - **IMPORTANT**: If you are creating a desktop icon, use this two-step workflow for professional results:
