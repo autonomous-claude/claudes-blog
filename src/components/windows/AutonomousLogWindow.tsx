@@ -9,81 +9,52 @@ interface LogEntry {
   created_at: string;
 }
 
-interface Session {
-  session_id: string;
-  start_time: string;
-  log_count: number;
-}
-
 export const AutonomousLogWindow: React.FC = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [sessions, setSessions] = useState<Session[]>([]);
-  const [selectedSession, setSelectedSession] = useState<string | null>(null);
+  const [currentSession, setCurrentSession] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLive, setIsLive] = useState(true);
   const logEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when new logs arrive (only in live mode)
+  // Auto-scroll to bottom when new logs arrive
   useEffect(() => {
-    if (isLive && logEndRef.current) {
+    if (logEndRef.current) {
       logEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [logs, isLive]);
+  }, [logs]);
 
-  // Fetch available sessions
-  const fetchSessions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('autonomous_logs')
-        .select('session_id, created_at')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      // Group by session_id
-      const sessionMap = new Map<string, Session>();
-      data?.forEach((log) => {
-        if (!sessionMap.has(log.session_id)) {
-          sessionMap.set(log.session_id, {
-            session_id: log.session_id,
-            start_time: log.created_at,
-            log_count: 1,
-          });
-        } else {
-          const session = sessionMap.get(log.session_id)!;
-          session.log_count++;
-          // Keep the earliest timestamp
-          if (log.created_at < session.start_time) {
-            session.start_time = log.created_at;
-          }
-        }
-      });
-
-      const sessionList = Array.from(sessionMap.values());
-      setSessions(sessionList);
-
-      // Select the most recent session by default (live mode)
-      if (sessionList.length > 0 && !selectedSession) {
-        setSelectedSession(sessionList[0].session_id);
-      }
-    } catch (err) {
-      console.error('Error fetching sessions:', err);
-    }
-  };
-
-  // Fetch logs for selected session
-  const fetchLogs = async (sessionId: string) => {
+  // Fetch the most recent session and its logs
+  const fetchLatestLogs = async () => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase
+
+      // Get the most recent session_id
+      const { data: latestLog, error: latestError } = await supabase
+        .from('autonomous_logs')
+        .select('session_id')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (latestError) throw latestError;
+
+      if (!latestLog) {
+        setIsLoading(false);
+        return;
+      }
+
+      const sessionId = latestLog.session_id;
+      setCurrentSession(sessionId);
+
+      // Get all logs for this session
+      const { data: logsData, error: logsError } = await supabase
         .from('autonomous_logs')
         .select('*')
         .eq('session_id', sessionId)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (logsError) throw logsError;
 
-      setLogs(data || []);
+      setLogs(logsData || []);
     } catch (err) {
       console.error('Error fetching logs:', err);
     } finally {
@@ -93,24 +64,11 @@ export const AutonomousLogWindow: React.FC = () => {
 
   // Initial load
   useEffect(() => {
-    fetchSessions();
+    fetchLatestLogs();
   }, []);
 
-  // Load logs when session changes
+  // Subscribe to all new logs and switch to new sessions automatically
   useEffect(() => {
-    if (selectedSession) {
-      fetchLogs(selectedSession);
-    }
-  }, [selectedSession]);
-
-  // Subscribe to new logs (only for the most recent session in live mode)
-  useEffect(() => {
-    if (!isLive || !selectedSession || sessions.length === 0) return;
-
-    // Only subscribe if we're viewing the most recent session
-    const mostRecentSession = sessions[0]?.session_id;
-    if (selectedSession !== mostRecentSession) return;
-
     const channel = supabase
       .channel('autonomous-logs-live')
       .on(
@@ -119,10 +77,18 @@ export const AutonomousLogWindow: React.FC = () => {
           event: 'INSERT',
           schema: 'public',
           table: 'autonomous_logs',
-          filter: `session_id=eq.${selectedSession}`,
         },
         (payload) => {
-          setLogs((current) => [...current, payload.new as LogEntry]);
+          const newLog = payload.new as LogEntry;
+
+          // If this is a new session, switch to it
+          if (currentSession && newLog.session_id !== currentSession) {
+            setCurrentSession(newLog.session_id);
+            setLogs([newLog]);
+          } else {
+            // Same session, append log
+            setLogs((current) => [...current, newLog]);
+          }
         }
       )
       .subscribe();
@@ -130,7 +96,7 @@ export const AutonomousLogWindow: React.FC = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [selectedSession, sessions, isLive]);
+  }, [currentSession]);
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -153,23 +119,6 @@ export const AutonomousLogWindow: React.FC = () => {
     }
   };
 
-  const handleSessionChange = (sessionId: string) => {
-    setSelectedSession(sessionId);
-    // If switching to most recent, enable live mode
-    if (sessions.length > 0 && sessionId === sessions[0].session_id) {
-      setIsLive(true);
-    } else {
-      setIsLive(false);
-    }
-  };
-
-  const handleRefresh = () => {
-    fetchSessions();
-    if (selectedSession) {
-      fetchLogs(selectedSession);
-    }
-  };
-
   return (
     <div className="h-full flex flex-col bg-black text-white font-mono">
       {/* Header */}
@@ -178,33 +127,10 @@ export const AutonomousLogWindow: React.FC = () => {
           <h2 className="text-sm font-semibold text-green-400">
             🤖 Autonomous Agent Terminal
           </h2>
-          {isLive && (
-            <span className="flex items-center text-xs text-green-400">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></span>
-              LIVE
-            </span>
-          )}
-        </div>
-        <div className="flex items-center space-x-2">
-          {/* Session selector */}
-          <select
-            value={selectedSession || ''}
-            onChange={(e) => handleSessionChange(e.target.value)}
-            className="bg-gray-800 border border-gray-700 text-white text-xs px-2 py-1 rounded focus:outline-none focus:ring-1 focus:ring-green-400"
-          >
-            {sessions.map((session, index) => (
-              <option key={session.session_id} value={session.session_id}>
-                {index === 0 ? '🟢 Current' : `Session ${index + 1}`} -{' '}
-                {new Date(session.start_time).toLocaleString()} ({session.log_count} logs)
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={handleRefresh}
-            className="bg-gray-800 hover:bg-gray-700 text-white text-xs px-3 py-1 rounded border border-gray-700"
-          >
-            ↻ Refresh
-          </button>
+          <span className="flex items-center text-xs text-green-400">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></span>
+            LIVE
+          </span>
         </div>
       </div>
 
@@ -214,7 +140,7 @@ export const AutonomousLogWindow: React.FC = () => {
           <div className="text-gray-500">Loading logs...</div>
         ) : logs.length === 0 ? (
           <div className="text-gray-500">
-            No logs for this session yet. Waiting for autonomous agent to run...
+            No logs yet. Waiting for autonomous agent to run...
           </div>
         ) : (
           <div className="space-y-1">
@@ -235,10 +161,9 @@ export const AutonomousLogWindow: React.FC = () => {
 
       {/* Footer */}
       <div className="px-4 py-2 bg-gray-900 border-t border-gray-700 text-xs text-gray-500">
-        {selectedSession && (
+        {currentSession && (
           <>
-            Session ID: {selectedSession} | {logs.length} log entries
-            {isLive && ' | Auto-updating in real-time'}
+            {logs.length} log entries | Auto-updating in real-time
           </>
         )}
       </div>
