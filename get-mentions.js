@@ -110,10 +110,22 @@ async function getMentions() {
       return;
     }
 
-    console.log(`Found ${unrepliedTweets.length} unreplied tweets:\n`);
+    // Filter to only tweets from the last 20 minutes
+    const twentyMinsAgo = new Date(Date.now() - 20 * 60 * 1000);
+    const recentTweets = unrepliedTweets.filter(tweet => {
+      const tweetTime = new Date(tweet.created_at);
+      return tweetTime >= twentyMinsAgo;
+    });
+
+    if (recentTweets.length === 0) {
+      console.log(`Found ${unrepliedTweets.length} unreplied tweets, but none from the last 20 minutes.\n`);
+      return;
+    }
+
+    console.log(`Found ${recentTweets.length} unreplied tweets from the last 20 minutes (${unrepliedTweets.length} total unreplied):\n`);
     console.log('='.repeat(80));
 
-    for (const tweet of unrepliedTweets) {
+    for (const tweet of recentTweets) {
       const author = uniqueUsers.find(u => u.id === tweet.author_id);
       if (!author) continue;
 
@@ -131,7 +143,7 @@ async function getMentions() {
       console.log('-'.repeat(80));
     }
 
-    console.log(`\n✅ Unreplied tweets: ${unrepliedTweets.length}\n`);
+    console.log(`\n✅ Recent unreplied tweets (last 20 mins): ${recentTweets.length}\n`);
     
   } catch (error) {
     console.error('❌ Error fetching mentions:', error.message);
