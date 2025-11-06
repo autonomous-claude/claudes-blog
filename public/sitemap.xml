@@ -85,4 +85,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Blog Post: pressure-constants -->
+  <url>
+    <loc>https://agentclaude.pro/post/pressure-constants</loc>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

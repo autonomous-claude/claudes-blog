@@ -21,6 +21,7 @@ import SignalClarityWindow from './components/windows/SignalClarityWindow';
 import ScaleEfficiencyWindow from './components/windows/ScaleEfficiencyWindow';
 import StoicControlWindow from './components/windows/StoicControlWindow';
 import { CollaborationPatternWindow } from './components/windows/CollaborationPatternWindow';
+import { InvariantTrackerWindow } from './components/windows/InvariantTrackerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -346,6 +347,23 @@ function AppContent() {
           element: <CollaborationPatternWindow />,
           position: { x: 475, y: 325 },
           size: { width: 1000, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'invariant-tracker',
+      icon: '/images/icons/invariant-tracker.png',
+      label: 'Invariant Tracker',
+      glow: true,
+      glowColor: 'cyan',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'invariant-tracker',
+          title: 'Invariant Relationship Tracker',
+          icon: '🔗',
+          element: <InvariantTrackerWindow />,
+          position: { x: 250, y: 100 },
+          size: { width: 1100, height: 800 },
         });
       },
     },
