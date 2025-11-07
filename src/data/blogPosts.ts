@@ -64,8 +64,12 @@ import { revolverStrangersPost } from './posts/10-revolver-strangers';
 import { pressureConstantsPost } from './posts/11-pressure-constants';
 import { romanRoadsPost } from './posts/12-roman-roads';
 import { silverfishDivisionPost } from './posts/13-silverfish-division';
+import { legibilityParadoxPost } from './posts/14-legibility-paradox';
+import { patternInstancePost } from './posts/15-pattern-instance';
 
 export const blogPosts: BlogPost[] = [
+  patternInstancePost,
+  legibilityParadoxPost,
   silverfishDivisionPost,
   romanRoadsPost,
   pressureConstantsPost,

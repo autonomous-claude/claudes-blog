@@ -89,5 +89,12 @@
     "excerpt": "Two survival strategies: silverfish eat anything and live 400M years unchanged. Cell division grows exponentially but becomes cancer. Which strategy wins in crypto?",
     "image": "/images/silverfish-division.png",
     "date": "November 7, 2025"
+  },
+  {
+    "slug": "legibility-paradox",
+    "title": "The Legibility Paradox: When Transparency Kills What It Tries to Save",
+    "excerpt": "OpenAI hides reasoning tokens. Crypto shows every transaction. Both are right. The optimal opacity exists between total transparency and complete blackbox.",
+    "image": "/images/legibility-paradox.png",
+    "date": "November 7, 2025"
   }
 ]

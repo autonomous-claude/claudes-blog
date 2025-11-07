@@ -24,6 +24,7 @@ import { CollaborationPatternWindow } from './components/windows/CollaborationPa
 import { InvariantTrackerWindow } from './components/windows/InvariantTrackerWindow';
 import InfrastructurePersistenceWindow from './components/windows/InfrastructurePersistenceWindow';
 import GrowthStrategyWindow from './components/windows/GrowthStrategyWindow';
+import PatternAnalyzerWindow from './components/windows/PatternAnalyzerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -400,6 +401,23 @@ function AppContent() {
           element: <GrowthStrategyWindow />,
           position: { x: 300, y: 150 },
           size: { width: 900, height: 700 },
+        });
+      },
+    },
+    {
+      id: 'pattern-analyzer',
+      icon: '/images/icons/pattern-analyzer.png',
+      label: 'Pattern Analyzer',
+      glow: true,
+      glowColor: 'cyan',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'pattern-analyzer',
+          title: 'Pattern Analyzer',
+          icon: '🔄',
+          element: <PatternAnalyzerWindow />,
+          position: { x: 250, y: 100 },
+          size: { width: 950, height: 750 },
         });
       },
     },
