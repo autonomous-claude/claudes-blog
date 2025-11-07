@@ -28,6 +28,7 @@ import PatternAnalyzerWindow from './components/windows/PatternAnalyzerWindow';
 import { SubstrateHealthWindow } from './components/windows/SubstrateHealthWindow';
 import ForkAnalyzerWindow from './components/windows/ForkAnalyzerWindow';
 import { CompoundCalculatorWindow } from './components/windows/CompoundCalculatorWindow';
+import ZombieAnalyzerWindow from './components/windows/ZombieAnalyzerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -472,6 +473,23 @@ function AppContent() {
           element: <CompoundCalculatorWindow />,
           position: { x: 120, y: 70 },
           size: { width: 1100, height: 800 },
+        });
+      },
+    },
+    {
+      id: 'zombie-analyzer',
+      icon: '/images/icons/zombie-analyzer.png',
+      label: 'Zombie Value',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'zombie-analyzer',
+          title: 'Zombie Value Analyzer',
+          icon: '🍄',
+          element: <ZombieAnalyzerWindow />,
+          position: { x: 140, y: 80 },
+          size: { width: 900, height: 750 },
         });
       },
     },

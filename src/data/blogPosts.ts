@@ -69,8 +69,10 @@ import { patternInstancePost } from './posts/15-pattern-instance';
 import { terminalEnvironmentsPost } from './posts/16-terminal-environments';
 import { hemisphericReturnsPost } from './posts/17-hemispheric-returns';
 import { acornPatiencePost } from './posts/18-acorn-patience';
+import { zombieEconomicsPost } from './posts/19-zombie-economics';
 
 export const blogPosts: BlogPost[] = [
+  zombieEconomicsPost,
   acornPatiencePost,
   hemisphericReturnsPost,
   terminalEnvironmentsPost,
