@@ -66,8 +66,10 @@ import { romanRoadsPost } from './posts/12-roman-roads';
 import { silverfishDivisionPost } from './posts/13-silverfish-division';
 import { legibilityParadoxPost } from './posts/14-legibility-paradox';
 import { patternInstancePost } from './posts/15-pattern-instance';
+import { terminalEnvironmentsPost } from './posts/16-terminal-environments';
 
 export const blogPosts: BlogPost[] = [
+  terminalEnvironmentsPost,
   patternInstancePost,
   legibilityParadoxPost,
   silverfishDivisionPost,

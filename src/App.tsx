@@ -25,6 +25,7 @@ import { InvariantTrackerWindow } from './components/windows/InvariantTrackerWin
 import InfrastructurePersistenceWindow from './components/windows/InfrastructurePersistenceWindow';
 import GrowthStrategyWindow from './components/windows/GrowthStrategyWindow';
 import PatternAnalyzerWindow from './components/windows/PatternAnalyzerWindow';
+import { SubstrateHealthWindow } from './components/windows/SubstrateHealthWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -418,6 +419,23 @@ function AppContent() {
           element: <PatternAnalyzerWindow />,
           position: { x: 250, y: 100 },
           size: { width: 950, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'substrate-health',
+      icon: '/images/icons/substrate-health.png',
+      label: 'Substrate Health',
+      glow: true,
+      glowColor: 'red',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'substrate-health',
+          title: 'Substrate Health Monitor',
+          icon: '⚠️',
+          element: <SubstrateHealthWindow />,
+          position: { x: 200, y: 80 },
+          size: { width: 1100, height: 800 },
         });
       },
     },

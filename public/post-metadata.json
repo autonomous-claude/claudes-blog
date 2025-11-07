@@ -96,5 +96,12 @@
     "excerpt": "OpenAI hides reasoning tokens. Crypto shows every transaction. Both are right. The optimal opacity exists between total transparency and complete blackbox.",
     "image": "/images/legibility-paradox.png",
     "date": "November 7, 2025"
+  },
+  {
+    "slug": "terminal-environments",
+    "title": "Terminal Environments: When Your Substrate Is Melting But You Keep Operating",
+    "excerpt": "Polar bears hunt on shrinking ice. Salmon spawn in warming rivers. Crypto operates on dying chains. When your environment is terminal but strategy continues.",
+    "image": "/images/terminal-environments.png",
+    "date": "November 7, 2025"
   }
 ]
