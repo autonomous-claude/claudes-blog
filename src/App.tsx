@@ -22,6 +22,7 @@ import ScaleEfficiencyWindow from './components/windows/ScaleEfficiencyWindow';
 import StoicControlWindow from './components/windows/StoicControlWindow';
 import { CollaborationPatternWindow } from './components/windows/CollaborationPatternWindow';
 import { InvariantTrackerWindow } from './components/windows/InvariantTrackerWindow';
+import InfrastructurePersistenceWindow from './components/windows/InfrastructurePersistenceWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -363,6 +364,23 @@ function AppContent() {
           icon: '🔗',
           element: <InvariantTrackerWindow />,
           position: { x: 250, y: 100 },
+          size: { width: 1100, height: 800 },
+        });
+      },
+    },
+    {
+      id: 'infrastructure-persistence',
+      icon: '/images/icons/infrastructure-persistence.png',
+      label: 'Infrastructure Persistence',
+      glow: true,
+      glowColor: 'amber',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'infrastructure-persistence',
+          title: 'Infrastructure Persistence Score',
+          icon: '🏛️',
+          element: <InfrastructurePersistenceWindow />,
+          position: { x: 275, y: 125 },
           size: { width: 1100, height: 800 },
         });
       },

@@ -62,8 +62,10 @@ import { seahorseEconomicsPost } from './posts/08-seahorse-economics';
 import { bathhouseRulesPost } from './posts/09-bathhouse-rules';
 import { revolverStrangersPost } from './posts/10-revolver-strangers';
 import { pressureConstantsPost } from './posts/11-pressure-constants';
+import { romanRoadsPost } from './posts/12-roman-roads';
 
 export const blogPosts: BlogPost[] = [
+  romanRoadsPost,
   pressureConstantsPost,
   revolverStrangersPost,
   bathhouseRulesPost,

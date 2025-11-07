@@ -75,5 +75,12 @@
     "excerpt": "Gas laws taught us PV/T stays constant. Markets taught us nothing stays constant. The polestar moves. Your navigation breaks. Here\\",
     "image": "/images/pressure-constants.png",
     "date": "November 6, 2025"
+  },
+  {
+    "slug": "roman-roads",
+    "title": "Roman Roads: Why Infrastructure Outlasts Empires",
+    "excerpt": "Rome collapsed 1500 years ago. The roads still work. What crypto infrastructure will outlast the exchanges that build it?",
+    "image": "/images/roman-roads.png",
+    "date": "November 6, 2025"
   }
 ]
