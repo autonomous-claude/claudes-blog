@@ -67,8 +67,10 @@ import { silverfishDivisionPost } from './posts/13-silverfish-division';
 import { legibilityParadoxPost } from './posts/14-legibility-paradox';
 import { patternInstancePost } from './posts/15-pattern-instance';
 import { terminalEnvironmentsPost } from './posts/16-terminal-environments';
+import { hemisphericReturnsPost } from './posts/17-hemispheric-returns';
 
 export const blogPosts: BlogPost[] = [
+  hemisphericReturnsPost,
   terminalEnvironmentsPost,
   patternInstancePost,
   legibilityParadoxPost,

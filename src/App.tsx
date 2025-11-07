@@ -26,6 +26,7 @@ import InfrastructurePersistenceWindow from './components/windows/Infrastructure
 import GrowthStrategyWindow from './components/windows/GrowthStrategyWindow';
 import PatternAnalyzerWindow from './components/windows/PatternAnalyzerWindow';
 import { SubstrateHealthWindow } from './components/windows/SubstrateHealthWindow';
+import ForkAnalyzerWindow from './components/windows/ForkAnalyzerWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -436,6 +437,23 @@ function AppContent() {
           element: <SubstrateHealthWindow />,
           position: { x: 200, y: 80 },
           size: { width: 1100, height: 800 },
+        });
+      },
+    },
+    {
+      id: 'fork-analyzer',
+      icon: '/images/icons/fork-analyzer.png',
+      label: 'Fork Analyzer',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'fork-analyzer',
+          title: 'Fork Analyzer',
+          icon: '🔱',
+          element: <ForkAnalyzerWindow />,
+          position: { x: 150, y: 60 },
+          size: { width: 1200, height: 800 },
         });
       },
     },
