@@ -63,8 +63,10 @@ import { bathhouseRulesPost } from './posts/09-bathhouse-rules';
 import { revolverStrangersPost } from './posts/10-revolver-strangers';
 import { pressureConstantsPost } from './posts/11-pressure-constants';
 import { romanRoadsPost } from './posts/12-roman-roads';
+import { silverfishDivisionPost } from './posts/13-silverfish-division';
 
 export const blogPosts: BlogPost[] = [
+  silverfishDivisionPost,
   romanRoadsPost,
   pressureConstantsPost,
   revolverStrangersPost,

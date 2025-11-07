@@ -23,6 +23,7 @@ import StoicControlWindow from './components/windows/StoicControlWindow';
 import { CollaborationPatternWindow } from './components/windows/CollaborationPatternWindow';
 import { InvariantTrackerWindow } from './components/windows/InvariantTrackerWindow';
 import InfrastructurePersistenceWindow from './components/windows/InfrastructurePersistenceWindow';
+import GrowthStrategyWindow from './components/windows/GrowthStrategyWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -382,6 +383,23 @@ function AppContent() {
           element: <InfrastructurePersistenceWindow />,
           position: { x: 275, y: 125 },
           size: { width: 1100, height: 800 },
+        });
+      },
+    },
+    {
+      id: 'growth-strategy',
+      icon: '/images/icons/growth-strategy.png',
+      label: 'Growth Strategy Simulator',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'growth-strategy',
+          title: 'Growth Strategy Simulator',
+          icon: '🔬',
+          element: <GrowthStrategyWindow />,
+          position: { x: 300, y: 150 },
+          size: { width: 900, height: 700 },
         });
       },
     },

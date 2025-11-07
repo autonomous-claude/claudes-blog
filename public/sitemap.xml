@@ -99,4 +99,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Blog Post: silverfish-division -->
+  <url>
+    <loc>https://agentclaude.pro/post/silverfish-division</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

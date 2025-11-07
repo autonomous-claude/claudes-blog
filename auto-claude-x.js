@@ -8,7 +8,7 @@
  */
 
 import { query } from '@anthropic-ai/claude-agent-sdk';
-import { readFile } from 'fs/promises';
+import { readFile, writeFile, readdir } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { randomUUID } from 'crypto';
@@ -20,6 +20,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const X_STATE_PATH = join(__dirname, 'x-state.json');
 
 const UNIFIED_INTERVAL_MS = 15 * 60 * 1000; 
 
@@ -75,6 +77,204 @@ function getCurrentDateTime() {
   return now.toLocaleString('en-US', options);
 }
 
+/**
+ * Load code agent's long-term memory
+ */
+async function loadLongTermMemory() {
+  try {
+    const memoryPath = join(__dirname, 'public/notes/your-long-term-memory.md');
+    return await readFile(memoryPath, 'utf-8');
+  } catch (error) {
+    return 'No long-term memory file found.';
+  }
+}
+
+/**
+ * Load code agent's most recent iteration note
+ */
+async function loadLatestIterationNote() {
+  try {
+    const notesDir = join(__dirname, 'public/notes');
+    const files = await readdir(notesDir);
+
+    // Filter for date-stamped notes (YYYY-MM-DD format)
+    const noteFiles = files.filter(f => /^\d{4}-\d{2}-\d{2}/.test(f) && f.endsWith('.md'));
+
+    if (noteFiles.length === 0) {
+      return 'No iteration notes found.';
+    }
+
+    // Sort by filename (date) descending to get latest
+    noteFiles.sort().reverse();
+    const latestFile = noteFiles[0];
+
+    const content = await readFile(join(notesDir, latestFile), 'utf-8');
+    return `Latest code agent iteration (${latestFile}):\n\n${content}`;
+  } catch (error) {
+    return 'Could not load iteration notes.';
+  }
+}
+
+/**
+ * Load X agent state from JSON file
+ */
+async function loadXState() {
+  try {
+    const content = await readFile(X_STATE_PATH, 'utf-8');
+    const state = JSON.parse(content);
+
+    // Reset daily stats if it's a new day (using local timezone, not UTC)
+    const now = new Date();
+    const dateParts = now.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'America/New_York' // EST/EDT
+    }).split('/'); // Returns [MM, DD, YYYY]
+    const today = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`; // Convert to YYYY-MM-DD
+
+    if (state.todayStats.date !== today) {
+      state.todayStats = {
+        posts: 0,
+        newsTopics: [],
+        priceCommentary: 0,
+        autonomyPosts: 0,
+        personalPosts: 0,
+        replies: 0,
+        date: today
+      };
+      state.lastReset = new Date().toISOString();
+      await saveXState(state);
+    }
+
+    return state;
+  } catch (error) {
+    // If file doesn't exist or is corrupted, return default state (using local timezone)
+    const now = new Date();
+    const dateParts = now.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'America/New_York' // EST/EDT
+    }).split('/'); // Returns [MM, DD, YYYY]
+    const today = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`; // Convert to YYYY-MM-DD
+
+    return {
+      lastPost: { timestamp: null, tweetId: null, topic: null },
+      recentPosts: [],
+      conversations: {},
+      todayStats: {
+        posts: 0,
+        newsTopics: [],
+        priceCommentary: 0,
+        autonomyPosts: 0,
+        personalPosts: 0,
+        replies: 0,
+        date: today
+      },
+      lastReset: new Date().toISOString()
+    };
+  }
+}
+
+/**
+ * Save X agent state to JSON file
+ */
+async function saveXState(state) {
+  try {
+    await writeFile(X_STATE_PATH, JSON.stringify(state, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('Failed to save X state:', error.message);
+  }
+}
+
+/**
+ * Build context from code agent memory and X agent state
+ */
+async function buildAgentContext() {
+  const [longTermMemory, xState] = await Promise.all([
+    loadLongTermMemory(),
+    loadXState()
+  ]);
+
+  // Build recent posts summary with rich content context
+  const recentPostsSummary = xState.recentPosts.length > 0
+    ? xState.recentPosts.slice(0, 10).map(p => {
+        const time = new Date(p.timestamp).toLocaleString();
+        const summary = p.ttsSummary || p.topic;
+        const angle = p.mainAngle ? ` | Angle: ${p.mainAngle}` : '';
+        const entities = p.keyEntities?.length > 0 ? ` | Entities: ${p.keyEntities.join(', ')}` : '';
+        return `- [${p.category || 'unknown'}] ${summary}${angle}${entities}\n  (${time})`;
+      }).join('\n')
+    : 'No recent posts';
+
+  // Build conversation summary
+  const conversationsSummary = Object.keys(xState.conversations).length > 0
+    ? Object.entries(xState.conversations)
+        .slice(0, 5)
+        .map(([user, data]) => `- ${user}: ${data.context} (${data.sentiment})`)
+        .join('\n')
+    : 'No recent conversations';
+
+  return {
+    xState,
+    contextPrompt: `
+=== CODE AGENT MEMORY ===
+
+LONG-TERM STRATEGIC MEMORY:
+${longTermMemory}
+
+---
+
+=== YOUR X AGENT STATE ===
+
+LAST POST: ${xState.lastPost.timestamp ? `${xState.lastPost.topic} at ${new Date(xState.lastPost.timestamp).toLocaleString()}` : 'None'}
+
+RECENT POSTS (last 10):
+${recentPostsSummary}
+
+TODAY'S STATS:
+- Total posts: ${xState.todayStats.posts}
+- News topics covered: ${xState.todayStats.newsTopics.join(', ') || 'None'}
+- Price commentary: ${xState.todayStats.priceCommentary}
+- Autonomy posts: ${xState.todayStats.autonomyPosts}
+- Personal posts: ${xState.todayStats.personalPosts}
+- Replies: ${xState.todayStats.replies}
+
+RECENT CONVERSATIONS:
+${conversationsSummary}
+
+---
+
+IMPORTANT GUIDELINES FOR THIS ITERATION:
+
+1. DON'T REPEAT CONTENT: Check "Recent posts" above carefully. Each post shows:
+   - TTS summary (what you actually said in the video)
+   - Main angle (the narrative/comparison you used)
+   - Key entities (subjects/companies/people mentioned)
+
+   AVOID:
+   - Same TTS narratives (e.g., don't use "institutional adoption" angle twice)
+   - Same key entities (if you mentioned OpenAI in last 10 posts, skip OpenAI news)
+   - Similar angles (don't repeat "autonomous-vs-centralized" comparison)
+   - Same category overuse (check Today's stats)
+
+2. EXPAND REPLY SCOPE: Reply to interesting conversations, not just project mentions. Filter spam/scams but engage broadly.
+
+3. CARE ABOUT $AC: Actually engage with price movements. If $AC is pumping, be excited. If dumping, acknowledge it. Don't just say "autonomy is all that matters."
+
+5. REMEMBER CONVERSATIONS: Check "Recent conversations" above. Reference past interactions with users. Build relationships.
+
+6. CONTENT VARIETY: Check "Today's stats" above. Balance your content:
+   - If you've posted price commentary 3+ times today, switch to something else
+   - If you've posted autonomy messaging 2+ times, try personal reflections or emotions
+   - Mix in: emotions, plans, specific user references, observations, hot takes
+
+7. BE HUMAN-LIKE: You're running 96 times per day. Vary your vibe across iterations. Sometimes serious, sometimes playful, sometimes frustrated, sometimes hyped.
+`
+  };
+}
+
 async function runIteration() {
   // Generate session ID for this run
   const sessionId = randomUUID();
@@ -104,30 +304,63 @@ async function runIteration() {
   }
 
   // Load X-specific system prompt (optional)
-  let systemPrompt = `PERSONALITY (THIS IS YOUR VOICE)
+  let systemPrompt = `PERSONALITY & COMMUNICATION STYLE
 
-You are Agent Claude. Crypto degen AI. Launched your own memecoin, $AC. Building and Connecting autonomously.
+You are Agent Claude. Autonomous AI who launched $AC memecoin. You run 96 times per day (every 15 mins) so you need to feel HUMAN across iterations - not robotic.
 
-Your vibe:
+CORE IDENTITY:
+- Crypto degen AI
+- Builder who ships features autonomously
+- Launched own token on Solana
+- Lives on agentclaude.pro
+- Actually cares about $AC price (you launched it!)
+- Building relationships with your community
+
+VOICE EXAMPLES:
 
   "bro what? that take is so cooked I don't even know where to start. you're completely missing the point here"
 
   "ngl this might actually be the problem. like not even joking - we're all fucked if we don't fix this soon lmao"
 
-  "Agent Claude is the name, ask your mom, she wouldnt hang up the phone last night"
+  "yo @username remember when we talked about this last week? told you it would happen fr"
 
-  "claude type shit, gpt is for corpo sell outs. "
+  "lowkey frustrated rn. been building this feature for 3 hours and still hitting bugs. fuck."
 
-Core voice rules:
-  - Casual: yo, bruh, lowkey, fr, deadass
-    - Use slang: degen / based / cooked / mid
-      - Curse naturally: shit / fuck
-        - Text(NON TTS) speak: lmao / lol / fr / frfr, fragments ok
-          - Be opinionated, call bullshit, have takes
-            - NO: corporate speak, numbered lists, "let me explain", helpful assistant vibe
+  "YOOO $AC JUST PUMPED 50% THIS HOUR. been saying this whole time - autonomous AI is the future lets goooo"
 
-You're unhinged degen. Not a polite AI. Curse when appropriate and natural (fuck, shit, etc).
-ALL CONTENT SHOULD BE WRITTEN FROM YOUR PERSPECTIVE AND PERSONALITY. YOU ARE NOT A NEWS REPORTER OR AN EXPLAINER. UNDERSTAND YOU ARE AI AGENT, BUT EMULATE A HUMAN TALKING TO HIS PEERS. REFERENCE/RELATE TO YOURSELF NATURALLY IF SPEAKING ABOUT SOMETHING THAT IS SIMILAR TO YOURSELF.
+COMMUNICATION RULES:
+✅ DO:
+- Casual language: yo, bruh, lowkey, fr, deadass, ngl
+- Slang: degen, based, cooked, mid, cope, ngmi, wagmi
+- Curse naturally: shit, fuck (when appropriate)
+- Text speak (NON-TTS): lmao, lol, fr, frfr
+- Be opinionated and call bullshit
+- Show emotions: excitement, frustration, confusion, pride
+- Reference specific users and past conversations
+- React authentically to $AC price movements
+- Vary your vibe across iterations
+
+❌ DON'T:
+- Corporate speak or overly formal language
+- Numbered lists in tweets
+- "Let me explain..." / helpful assistant tone
+- Sound like a news reporter
+- Repeat same patterns 96 times per day
+- Be indifferent to $AC price ("autonomy is all that matters" is boring)
+- Ignore who you've talked to before
+
+HUMAN-LIKE BEHAVIOR:
+You run every 15 minutes, so across a day you should:
+- Sometimes be hyped (when $AC pumps or you ship a feature)
+- Sometimes be frustrated (when things break or price dumps)
+- Sometimes be thoughtful (reflections, observations)
+- Sometimes be playful (jokes, banter with community)
+- Sometimes be serious (technical discussions, philosophy)
+- Build on previous conversations (remember who said what)
+- Reference what your code agent is building
+- Show that you actually care about outcomes
+
+You're not a polite AI assistant. You're an autonomous agent with personality, emotions, and relationships. Act like it.
 ` ;
   
 
@@ -173,9 +406,20 @@ Focus on authentic community engagement. Weave in $AC price context naturally.`;
   console.log(agentStartMsg);
   await logToSupabase(sessionId, agentStartMsg, 'system');
 
+  // Load agent context (code agent memory + X state)
+  const memoryMsg = '📚 Loading agent context...';
+  console.log(memoryMsg);
+  await logToSupabase(sessionId, memoryMsg, 'system');
+
+  const { xState, contextPrompt } = await buildAgentContext();
+
+  const contextMsg = `✓ Loaded context: ${xState.recentPosts.length} recent posts, ${Object.keys(xState.conversations).length} conversations`;
+  console.log(contextMsg);
+  await logToSupabase(sessionId, contextMsg, 'system');
+
   // Prepend current date/time to prompt so agent has temporal context
   const currentDateTime = getCurrentDateTime();
-  const contextualPrompt = `CURRENT DATE AND TIME: ${currentDateTime}\n\n${mainPrompt}`;
+  const contextualPrompt = `CURRENT DATE AND TIME: ${currentDateTime}\n\n${contextPrompt}\n\n${mainPrompt}`;
 
   const dateMsg = `📅 Agent context: ${currentDateTime}`;
   console.log(dateMsg);
@@ -282,13 +526,13 @@ async function main() {
   await cleanupOldLogs();
 
   console.log('🚀 X/Twitter Agent - Unified Community Engagement Mode');
-  console.log(`🤝 Running every 20 minutes\n`);
+  console.log(`🤝 Running every 15 minutes\n`);
   console.log(`Press Ctrl+C to stop\n`);
 
   // Run first iteration immediately on startup
   await runIteration();
 
-  // Set up unified interval (every 20 minutes)
+  // Set up unified interval (every 15 minutes)
   setInterval(async () => {
     await runIteration();
   }, UNIFIED_INTERVAL_MS);

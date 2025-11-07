@@ -76,9 +76,9 @@ async function getMentions() {
       return;
     }
 
-    console.log(`Found ${uniqueTweets.length} total tweets (${mentions.data.data?.length || 0} mentions + ${repliesArray.length} replies). Filtering out already-replied tweets...\n`);
+    console.log(`Found ${uniqueTweets.length} total tweets (${mentions.data.data?.length || 0} mentions + ${repliesArray.length} replies). Filtering out already-engaged tweets (replies + quote tweets)...\n`);
 
-    // Filter out tweets we've already replied to
+    // Filter out tweets we've already replied to OR quote tweeted
     const unrepliedTweets = [];
     for (const tweet of uniqueTweets) {
       try {
@@ -89,14 +89,24 @@ async function getMentions() {
           continue;
         }
 
-        // Search for our own replies to this specific tweet
-        const searchQuery = `conversation_id:${tweet.conversation_id} from:${me.data.username} to:${author.username}`;
-        const replies = await client.v2.search(searchQuery, {
+        // Search for our own direct replies to this specific tweet
+        const replySearchQuery = `conversation_id:${tweet.conversation_id} from:${me.data.username} to:${author.username}`;
+        const replies = await client.v2.search(replySearchQuery, {
           max_results: 10,
         });
 
-        // If we haven't replied to this tweet, add it to the list
-        if (!replies.data.data || replies.data.data.length === 0) {
+        // Also search for quote tweets of this specific tweet
+        // Quote tweets reference the original tweet ID
+        const quoteSearchQuery = `from:${me.data.username} url:${tweet.id}`;
+        const quoteTweets = await client.v2.search(quoteSearchQuery, {
+          max_results: 10,
+        });
+
+        // If we haven't replied OR quote tweeted this tweet, add it to the list
+        const hasReplied = replies.data.data && replies.data.data.length > 0;
+        const hasQuoteTweeted = quoteTweets.data.data && quoteTweets.data.data.length > 0;
+
+        if (!hasReplied && !hasQuoteTweeted) {
           unrepliedTweets.push(tweet);
         }
       } catch (_error) {
@@ -106,23 +116,23 @@ async function getMentions() {
     }
 
     if (unrepliedTweets.length === 0) {
-      console.log('No new tweets to reply to (already replied to all recent mentions and replies).\n');
+      console.log('No new tweets to engage with (already replied to or quote tweeted all recent mentions).\n');
       return;
     }
 
-    // Filter to only tweets from the last 20 minutes
-    const twentyMinsAgo = new Date(Date.now() - 20 * 60 * 1000);
+    // Filter to only tweets from the last 15 minutes
+    const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000);
     const recentTweets = unrepliedTweets.filter(tweet => {
       const tweetTime = new Date(tweet.created_at);
-      return tweetTime >= twentyMinsAgo;
+      return tweetTime >= fifteenMinsAgo;
     });
 
     if (recentTweets.length === 0) {
-      console.log(`Found ${unrepliedTweets.length} unreplied tweets, but none from the last 20 minutes.\n`);
+      console.log(`Found ${unrepliedTweets.length} unreplied tweets, but none from the last 15 minutes.\n`);
       return;
     }
 
-    console.log(`Found ${recentTweets.length} unreplied tweets from the last 20 minutes (${unrepliedTweets.length} total unreplied):\n`);
+    console.log(`Found ${recentTweets.length} unreplied tweets from the last 15 minutes (${unrepliedTweets.length} total unreplied):\n`);
     console.log('='.repeat(80));
 
     for (const tweet of recentTweets) {
@@ -143,7 +153,7 @@ async function getMentions() {
       console.log('-'.repeat(80));
     }
 
-    console.log(`\n✅ Recent unreplied tweets (last 20 mins): ${recentTweets.length}\n`);
+    console.log(`\n✅ Recent unreplied tweets (last 15 mins): ${recentTweets.length}\n`);
     
   } catch (error) {
     console.error('❌ Error fetching mentions:', error.message);

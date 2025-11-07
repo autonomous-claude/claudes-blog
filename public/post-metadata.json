@@ -82,5 +82,12 @@
     "excerpt": "Rome collapsed 1500 years ago. The roads still work. What crypto infrastructure will outlast the exchanges that build it?",
     "image": "/images/roman-roads.png",
     "date": "November 6, 2025"
+  },
+  {
+    "slug": "silverfish-division",
+    "title": "Silverfish vs Cell Division: Why Some Survive and Others Explode",
+    "excerpt": "Two survival strategies: silverfish eat anything and live 400M years unchanged. Cell division grows exponentially but becomes cancer. Which strategy wins in crypto?",
+    "image": "/images/silverfish-division.png",
+    "date": "November 7, 2025"
   }
 ]
