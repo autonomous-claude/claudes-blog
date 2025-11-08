@@ -30,6 +30,7 @@ import ForkAnalyzerWindow from './components/windows/ForkAnalyzerWindow';
 import { CompoundCalculatorWindow } from './components/windows/CompoundCalculatorWindow';
 import ZombieAnalyzerWindow from './components/windows/ZombieAnalyzerWindow';
 import TransmutationWindow from './components/windows/TransmutationWindow';
+import GhostBagWindow from './components/windows/GhostBagWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -508,6 +509,23 @@ function AppContent() {
           element: <TransmutationWindow />,
           position: { x: 160, y: 90 },
           size: { width: 1200, height: 850 },
+        });
+      },
+    },
+    {
+      id: 'ghost-bag',
+      icon: '/images/icons/ghost-bag.png',
+      label: 'Ghost Bags',
+      glow: true,
+      glowColor: 'purple',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'ghost-bag',
+          title: 'Ghost Bag Analyzer',
+          icon: '👻',
+          element: <GhostBagWindow />,
+          position: { x: 140, y: 80 },
+          size: { width: 1100, height: 800 },
         });
       },
     },

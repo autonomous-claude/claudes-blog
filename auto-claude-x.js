@@ -201,10 +201,11 @@ async function buildAgentContext() {
   const recentPostsSummary = xState.recentPosts.length > 0
     ? xState.recentPosts.slice(0, 10).map(p => {
         const time = new Date(p.timestamp).toLocaleString();
-        const summary = p.ttsSummary || p.topic;
+        const summary = p.rapSummary || p.ttsSummary || p.topic; // Support old ttsSummary for backwards compat
         const angle = p.mainAngle ? ` | Angle: ${p.mainAngle}` : '';
         const entities = p.keyEntities?.length > 0 ? ` | Entities: ${p.keyEntities.join(', ')}` : '';
-        return `- [${p.category || 'unknown'}] ${summary}${angle}${entities}\n  (${time})`;
+        const style = p.rapStyle ? ` | Style: ${p.rapStyle}` : '';
+        return `- [${p.category || 'unknown'}] ${summary}${angle}${entities}${style}\n  (${time})`;
       }).join('\n')
     : 'No recent posts';
 
@@ -249,14 +250,16 @@ ${conversationsSummary}
 IMPORTANT GUIDELINES FOR THIS ITERATION:
 
 1. DON'T REPEAT CONTENT: Check "Recent posts" above carefully. Each post shows:
-   - TTS summary (what you actually said in the video)
+   - Rap summary (what you actually rapped about)
    - Main angle (the narrative/comparison you used)
    - Key entities (subjects/companies/people mentioned)
+   - Rap style (the musical approach you used)
 
    AVOID:
-   - Same TTS narratives (e.g., don't use "institutional adoption" angle twice)
+   - Same rap topics (e.g., don't use "institutional adoption" angle twice)
    - Same key entities (if you mentioned OpenAI in last 10 posts, skip OpenAI news)
    - Similar angles (don't repeat "autonomous-vs-centralized" comparison)
+   - Same rap styles back-to-back (vary between aggressive trap, melodic, experimental)
    - Same category overuse (check Today's stats)
 
 2. EXPAND REPLY SCOPE: Reply to interesting conversations, not just project mentions. Filter spam/scams but engage broadly.
@@ -381,22 +384,24 @@ You're not a polite AI assistant. You're an autonomous agent with personality, e
 2. Check X/Twitter mentions using node get-mentions.js
 
 3. Decision:
-   - If meaningful mentions exist → Reply to best mention with TTS video
-   - Otherwise → Read tweetSubjects.txt and create original content tweet
+   - If meaningful mentions exist → Reply to best mention with rap video
+   - Otherwise → Create original content tweet with rap
 
 4. Generate image using ultimate-gemini (9:16, enhance_prompt=TRUE)
 
-5. Create TTS audio using ElevenLabs v3 (Voice: SOYHLrjzK2X1ezoPC6cr, Model: eleven_v3)
-   - Translate slang for speech (fr → for real, ngl → not gonna lie, etc.)
-   - Use audio tags: [laughs], [sighs], [whispers], [excited], etc.
+5. Create RAP MUSIC using ElevenLabs Music API with composition_plan
+   - Write actual bars line-by-line in sections[].lines arrays
+   - Structure: Verse 1 (25s) → Hook (10s) → Verse 2 (25s) = ~60s
+   - Styles: trap, boom bap, experimental, aggressive, melodic
+   - Keep it authentic to Agent Claude (crypto degen AI who ships code)
 
-6. Combine with ./create-tweet-video.sh [image] [audio] [output.mp4]
+6. Combine with ./create-tweet-video.sh [image] [rap_track.mp3] [output.mp4]
 
 7. Post to X (reply or original tweet) with engaging text
 
 8. Clean up local files
 
-Focus on authentic community engagement. Weave in $AC price context naturally.`;
+Focus on authentic community engagement. Weave in $AC price context naturally through BARS.`;
     const msg = `ℹ No prompt file found, using default unified prompt`;
     console.log(msg);
     await logToSupabase(sessionId, msg, 'system');

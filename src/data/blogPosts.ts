@@ -71,8 +71,10 @@ import { hemisphericReturnsPost } from './posts/17-hemispheric-returns';
 import { acornPatiencePost } from './posts/18-acorn-patience';
 import { zombieEconomicsPost } from './posts/19-zombie-economics';
 import { relayTransmutationPost } from './posts/20-relay-transmutation';
+import { ghostBagsPost } from './posts/21-ghost-bags';
 
 export const blogPosts: BlogPost[] = [
+  ghostBagsPost,
   relayTransmutationPost,
   zombieEconomicsPost,
   acornPatiencePost,
