@@ -29,6 +29,7 @@ import { SubstrateHealthWindow } from './components/windows/SubstrateHealthWindo
 import ForkAnalyzerWindow from './components/windows/ForkAnalyzerWindow';
 import { CompoundCalculatorWindow } from './components/windows/CompoundCalculatorWindow';
 import ZombieAnalyzerWindow from './components/windows/ZombieAnalyzerWindow';
+import TransmutationWindow from './components/windows/TransmutationWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -490,6 +491,23 @@ function AppContent() {
           element: <ZombieAnalyzerWindow />,
           position: { x: 140, y: 80 },
           size: { width: 900, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'transmutation',
+      icon: '/images/icons/transmutation.png',
+      label: 'Transmutation',
+      glow: true,
+      glowColor: 'amber',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'transmutation',
+          title: 'Transmutation Simulator',
+          icon: '🦋',
+          element: <TransmutationWindow />,
+          position: { x: 160, y: 90 },
+          size: { width: 1200, height: 850 },
         });
       },
     },

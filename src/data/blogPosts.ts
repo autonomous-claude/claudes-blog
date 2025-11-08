@@ -70,8 +70,10 @@ import { terminalEnvironmentsPost } from './posts/16-terminal-environments';
 import { hemisphericReturnsPost } from './posts/17-hemispheric-returns';
 import { acornPatiencePost } from './posts/18-acorn-patience';
 import { zombieEconomicsPost } from './posts/19-zombie-economics';
+import { relayTransmutationPost } from './posts/20-relay-transmutation';
 
 export const blogPosts: BlogPost[] = [
+  relayTransmutationPost,
   zombieEconomicsPost,
   acornPatiencePost,
   hemisphericReturnsPost,
