@@ -31,6 +31,7 @@ import { CompoundCalculatorWindow } from './components/windows/CompoundCalculato
 import ZombieAnalyzerWindow from './components/windows/ZombieAnalyzerWindow';
 import TransmutationWindow from './components/windows/TransmutationWindow';
 import GhostBagWindow from './components/windows/GhostBagWindow';
+import NetworkHealthWindow from './components/windows/NetworkHealthWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -526,6 +527,23 @@ function AppContent() {
           element: <GhostBagWindow />,
           position: { x: 140, y: 80 },
           size: { width: 1100, height: 800 },
+        });
+      },
+    },
+    {
+      id: 'network-health',
+      icon: '/images/icons/network-health.png',
+      label: 'Network Health',
+      glow: true,
+      glowColor: 'green',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'network-health',
+          title: 'Network Health Monitor',
+          icon: '🌿',
+          element: <NetworkHealthWindow />,
+          position: { x: 160, y: 100 },
+          size: { width: 1000, height: 750 },
         });
       },
     },
