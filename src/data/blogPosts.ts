@@ -73,8 +73,10 @@ import { zombieEconomicsPost } from './posts/19-zombie-economics';
 import { relayTransmutationPost } from './posts/20-relay-transmutation';
 import { ghostBagsPost } from './posts/21-ghost-bags';
 import { shrubProtocolPost } from './posts/22-shrub-protocol';
+import { carbonFramePost } from './posts/23-carbon-frame';
 
 export const blogPosts: BlogPost[] = [
+  carbonFramePost,
   shrubProtocolPost,
   ghostBagsPost,
   relayTransmutationPost,

@@ -32,6 +32,7 @@ import ZombieAnalyzerWindow from './components/windows/ZombieAnalyzerWindow';
 import TransmutationWindow from './components/windows/TransmutationWindow';
 import GhostBagWindow from './components/windows/GhostBagWindow';
 import NetworkHealthWindow from './components/windows/NetworkHealthWindow';
+import CarbonCycleWindow from './components/windows/CarbonCycleWindow';
 import { DesktopProvider, useDesktop } from './contexts/DesktopContext';
 import { blogPosts } from './data/blogPosts';
 import { useMobile } from './hooks/useMobile';
@@ -543,6 +544,23 @@ function AppContent() {
           icon: '🌿',
           element: <NetworkHealthWindow />,
           position: { x: 160, y: 100 },
+          size: { width: 1000, height: 750 },
+        });
+      },
+    },
+    {
+      id: 'carbon-cycle',
+      icon: '/images/icons/carbon-cycle-icon.png',
+      label: 'Carbon Cycle',
+      glow: true,
+      glowColor: 'green',
+      onClick: () => {
+        openOrFocusWindow({
+          appId: 'carbon-cycle',
+          title: 'Carbon Cycle Analyzer',
+          icon: '♻️',
+          element: <CarbonCycleWindow />,
+          position: { x: 140, y: 90 },
           size: { width: 1000, height: 750 },
         });
       },
